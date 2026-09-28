@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab Maya · LKPD Kemagnetan (Ringkas)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#10131c;
+    --bg-elevated:#171c29;
+    --bg-panel:#1c2233;
+    --bg-panel-2:#212840;
+    --border:#2b3350;
+    --border-soft:#232a42;
+    --text-primary:#eef0f6;
+    --text-secondary:#8d95b0;
+    --text-tertiary:#5c6480;
+    --accent:#ffb648;
+    --accent-dim:#5c481f;
+    --accent-soft:rgba(255,182,72,0.12);
+    --pole-n:#e8543f;
+    --pole-n-soft:rgba(232,84,63,0.16);
+    --pole-s:#9aa1ab;
+    --pole-s-text:#1c2233;
+    --state-attract:#5fd6a0;
+    --state-attract-soft:rgba(95,214,160,0.14);
+    --state-repel:#f2665b;
+    --state-repel-soft:rgba(242,102,91,0.14);
+    --font-display:'Space Grotesk', sans-serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+    --radius-lg:20px;
+    --radius-md:14px;
+    --radius-sm:9px;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:var(--bg);
+    background-image:
+      radial-gradient(circle at 15% 8%, rgba(255,182,72,0.05), transparent 40%),
+      radial-gradient(circle at 85% 92%, rgba(185,198,220,0.04), transparent 45%);
+    color:var(--text-primary);
+    font-family:var(--font-body);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  ::selection{background:var(--accent-soft); color:var(--accent);}
+
+  button{font-family:inherit;}
+
+  a{color:var(--accent);}
+
+  /* ---------- Header ---------- */
+  header.top{
+    grid-area:header;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:0 24px;
+    background:var(--bg-elevated);
+    border-bottom:1px solid var(--border-soft);
+    position:sticky;
+    top:0;
+    z-index:20;
+  }
+  .logo-badge{
+    width:38px;height:38px;flex:none;
+    border-radius:11px;
+    background:linear-gradient(155deg, var(--pole-n) 0%, var(--pole-n) 48%, var(--pole-s) 52%, var(--pole-s) 100%);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 0 0 1px rgba(255,255,255,0.06) inset, 0 6px 16px -6px rgba(232,84,63,0.5);
+  }
+  .logo-badge svg{width:22px;height:22px;}
+  .brand{display:flex;flex-direction:column;line-height:1.15;}
+  .brand .kicker{
+    font-family:var(--font-mono);
+    font-size:10.5px;
+    letter-spacing:0.14em;
+    color:var(--accent);
+    text-transform:uppercase;
+  }
+  .brand h1{
+    font-family:var(--font-display);
+    font-size:18px;
+    font-weight:600;
+    margin:1px 0 0;
+    letter-spacing:-0.01em;
+  }
+  .header-spacer{flex:1;}
+  .header-status{
+    display:flex;align-items:center;gap:8px;
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    color:var(--text-tertiary);
+    padding:6px 12px;
+    border:1px solid var(--border-soft);
+    border-radius:100px;
+    background:var(--bg-panel);
+  }
+  .header-status .dot{width:6px;height:6px;border-radius:50%;background:var(--state-attract);box-shadow:0 0 8px var(--state-attract);}
+  @media (max-width:640px){ .header-status{display:none;} }
+  .header-actions{display:flex;align-items:center;gap:8px;}
+  .header-btn{
+    width:34px;height:34px; flex:none;
+    border-radius:9px;
+    background:var(--bg-panel);
+    border:1px solid var(--border-soft);
+    color:var(--text-secondary);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    transition:color .15s ease, border-color .15s ease, background .15s ease;
+  }
+  .header-btn svg{width:17px;height:17px;}
+  .header-btn:hover{color:var(--accent); border-color:rgba(255,182,72,0.35);}
+  .header-btn.exit-btn:hover{color:var(--state-repel); border-color:rgba(242,102,91,0.35);}
+
+  .view{display:none;max-width:1440px;margin:0 auto;}
+  .view.active{display:block; animation:fadein .35s ease;}
+  @keyframes fadein{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+  .view-header{margin-bottom:20px;}
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin:0 0 8px;
+  }
+  .view-title-row{display:flex; align-items:center; gap:10px;}
+  .view-header h2{
+    font-family:var(--font-display);
+    font-size:28px;
+    margin:0 0 8px;
+    letter-spacing:-0.01em;
+  }
+  .view-header p{color:var(--text-secondary); margin:0; max-width:640px; line-height:1.55; font-size:14.5px;}
+
+  .badge{
+    pointer-events:auto;
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    padding:6px 11px;
+    border-radius:8px;
+    background:rgba(16,19,28,0.7);
+    backdrop-filter:blur(6px);
+    border:1px solid var(--border-soft);
+    color:var(--text-secondary);
+  }
+  .control-btn{
+    width:100%;
+    padding:11px 14px;
+    border-radius:11px;
+    border:1px solid var(--border);
+    background:var(--bg-panel-2);
+    color:var(--text-primary);
+    font-weight:600; font-size:13px;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    transition:border-color .15s, background .15s, transform .1s;
+  }
+  .control-btn:hover{border-color:var(--accent); background:var(--accent-soft); color:var(--accent);}
+  .control-btn:active{transform:scale(0.98);}
+  .control-btn.ghost{background:transparent;}
+  .control-btn svg{width:15px;height:15px;}
+
+  /* ---------- LKPD ---------- */
+  .lkpd-sheet{
+    background:var(--bg-elevated);
+    border:1px solid var(--border-soft);
+    border-radius:var(--radius-lg);
+    padding:32px 34px;
+  }
+  .lkpd-topbar{display:flex; justify-content:space-between; align-items:center; margin-bottom:22px; gap:12px; flex-wrap:wrap;}
+  .lkpd-sheet h3{
+    font-family:var(--font-display); font-size:16px; margin:26px 0 12px;
+    color:var(--accent); letter-spacing:-0.005em;
+    display:flex; align-items:center; gap:9px;
+  }
+  .lkpd-sheet h3::before{content:""; width:5px; height:16px; background:var(--accent); border-radius:3px;}
+  .lkpd-sheet h3:first-of-type{margin-top:0;}
+  .lkpd-sheet ol, .lkpd-sheet ul{margin:0; padding-left:20px; color:var(--text-secondary); font-size:13.6px; line-height:1.85;}
+  .lkpd-sheet li b{color:var(--text-primary);}
+  .field-row{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:6px;}
+  .field-row-4{grid-template-columns:repeat(4,1fr);}
+  .field-row-2{grid-template-columns:repeat(2,1fr);}
+  @media (max-width:640px){.field-row{grid-template-columns:1fr;}}
+  .field{display:flex; flex-direction:column; gap:5px;}
+  .field label{font-size:11px; color:var(--text-tertiary); font-family:var(--font-mono); letter-spacing:.03em;}
+  .field input, .field textarea{
+    background:var(--bg-panel-2); border:1px solid var(--border); border-radius:9px;
+    padding:9px 11px; color:var(--text-primary); font-family:var(--font-body); font-size:13.5px;
+    resize:vertical;
+  }
+  .field input:focus, .field textarea:focus{outline:none; border-color:var(--accent);}
+  .lkpd-instr{
+    background:var(--accent-soft); border-left:3px solid var(--accent); border-radius:8px;
+    padding:10px 14px; font-size:13px; color:var(--text-secondary); font-style:italic; margin:10px 0 14px;
+  }
+  .lkpd-hint{font-size:12.5px; color:var(--text-tertiary); margin:-10px 0 20px;}
+  .lkpd-subtitle{font-family:var(--font-display); font-size:13.5px; color:var(--text-primary); margin:16px 0 6px; font-weight:600;}
+  .radio-row{display:flex; flex-wrap:wrap; gap:10px 20px;}
+  .radio-opt{display:flex; align-items:center; gap:7px; font-size:13px; color:var(--text-secondary); cursor:pointer;}
+  .radio-opt input{accent-color:var(--accent); width:15px; height:15px; cursor:pointer;}
+  table.data-table input[type="text"], table.data-table input[type="number"]{
+    width:100%; background:var(--bg-panel-2); border:1px solid var(--border-soft); border-radius:7px;
+    color:var(--text-primary); padding:7px 9px; font-family:var(--font-body); font-size:12.8px;
+  }
+  table.data-table input:focus{outline:none; border-color:var(--accent);}
+  table.data-table td{text-align:center;}
+  table.data-table td:first-child{color:var(--text-tertiary); font-family:var(--font-mono); font-size:12px;}
+  table.obs-table{width:100%; border-collapse:collapse; margin-top:6px; font-size:13px;}
+  table.obs-table th{
+    text-align:left; font-family:var(--font-mono); font-size:10.5px; letter-spacing:.03em; text-transform:uppercase;
+    color:var(--text-tertiary); padding:8px 10px; border-bottom:1px solid var(--border);
+  }
+  table.obs-table td{border-bottom:1px solid var(--border-soft); padding:6px; vertical-align:top;}
+  table.obs-table td:first-child{color:var(--text-secondary); font-size:12.8px; width:26%;}
+  table.obs-table textarea{width:100%; min-height:44px; background:var(--bg-panel-2); border:1px solid var(--border-soft); border-radius:7px; color:var(--text-primary); padding:7px 9px; font-family:var(--font-body); font-size:12.8px;}
+  .discuss-item{margin-bottom:14px;}
+  .discuss-item p.q{margin:0 0 7px; font-size:13.6px; color:var(--text-primary);}
+  .discuss-item p.q b{color:var(--accent); font-family:var(--font-mono); margin-right:6px;}
+  .discuss-item textarea{width:100%; min-height:56px; background:var(--bg-panel-2); border:1px solid var(--border); border-radius:9px; padding:9px 11px; color:var(--text-primary); font-size:13px; font-family:var(--font-body);}
+
+
+
+  /* ---------- App shell (tanpa sidebar) ---------- */
+  .app{
+    min-height:100vh;
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+    grid-template-rows:68px 1fr;
+    grid-template-areas:"header" "main";
+  }
+  main{grid-area:main; padding:28px 28px 60px; min-width:0;}
+  @media (max-width:760px){
+    .app{grid-template-rows:60px 1fr;}
+    main{padding:16px 14px 60px;}
+  }
+  @media (max-width:480px){
+    main{padding:12px 10px 60px;}
+    .view-header h2{font-size:22px;}
+  }
+  .view{display:block !important; max-width:1100px; margin:0 auto; animation:fadein .35s ease;}
+  a.control-btn{text-decoration:none;}
+  .field-row > *, .field{min-width:0;}
+  .field input, .field textarea, table.data-table input, table.obs-table textarea{min-width:0;}
+  @media (max-width:480px){
+    .lkpd-sheet{padding:22px 16px;}
+    table.obs-table th{padding:8px 4px; font-size:9.5px;}
+    table.obs-table td{padding:4px 3px;}
+    table.data-table input[type="text"], table.data-table input[type="number"]{padding:7px 5px; font-size:12px;}
+  }
+
+  @media print{
+    header.top, .lkpd-topbar{display:none !important;}
+    .app{display:block;}
+    main{padding:0;}
+    .lkpd-sheet{border:none; padding:0;}
+    body{background:#fff; color:#111;}
+  }
+
+
+  /* ---------- Kuis arah medan (Kegiatan 2) ---------- */
+  .kuis{max-width:640px; background:var(--bg-panel); border:1px solid var(--border); border-radius:var(--radius-md); padding:16px; margin:6px 0 4px;}
+  .kuis .kz-sub{font-size:13px; color:var(--text-secondary); margin:0 0 10px; line-height:1.5;}
+  .kuis .top{display:flex; justify-content:space-between; font-size:12.5px; color:var(--text-secondary); font-family:var(--font-mono);}
+  .kuis .bar{height:6px; background:var(--border); border-radius:6px; overflow:hidden; margin:8px 0;}
+  .kuis .bar i{display:block; height:100%; background:var(--accent); transition:width .3s;}
+  .kuis svg{width:100%; height:auto; display:block;}
+  .kuis .kz-q{margin:6px 0 0; font-size:13.6px; line-height:1.55;}
+  .kuis .ch{display:flex; gap:10px; margin-top:8px;}
+  .kuis .ch button{flex:1; padding:12px 6px; border:2px solid var(--border); border-radius:12px; background:var(--bg-panel-2); color:var(--text-primary); font-size:13.5px; cursor:pointer;}
+  .kuis .ch button:hover:not(:disabled){border-color:var(--accent);}
+  .kuis .ch svg{width:52px; height:52px; margin:0 auto 4px;}
+  .kuis .ch .ok{border-color:var(--state-attract); background:var(--state-attract-soft);}
+  .kuis .ch .no{border-color:var(--state-repel); background:var(--state-repel-soft);}
+  .kuis .fb{display:none; margin-top:10px; padding:10px 12px; border-radius:10px; font-size:13px; line-height:1.55;}
+  .kuis .fb.ok{display:block; background:var(--state-attract-soft);}
+  .kuis .fb.no{display:block; background:var(--state-repel-soft);}
+  .kuis .nx{display:none; width:100%; margin-top:10px; padding:11px; border:0; border-radius:11px; background:var(--accent); color:#171c29; font-weight:600; font-size:14px; cursor:pointer;}
+  .kuis .big{font-size:2.2rem; font-weight:700; text-align:center; color:var(--accent); font-family:var(--font-display);}
+  .kuis .kz-res{text-align:center; font-size:13.6px; line-height:1.6;}
+
+  /* ---------- Latar tiap kegiatan ---------- */
+  .kg{
+    margin-top:26px; padding:22px 24px;
+    border:1px solid var(--border-soft); border-left:3px solid var(--kc);
+    border-radius:var(--radius-md);
+    background-color:var(--bg-elevated);
+    background-repeat:no-repeat;
+    background-position:0 0, right -14px top 12px;
+    background-size:auto, 380px auto;
+  }
+  .kg h3{margin-top:0; color:var(--kc);}
+  .kg h3::before{background:var(--kc);}
+  .kg .lkpd-instr{background:var(--kcs); border-left-color:var(--kc);}
+  @media (max-width:640px){ .kg{padding:18px 14px; background-size:auto, 240px auto;} }
+  .kg1{--kc:#ffb648; --kcs:rgba(255,182,72,.12); background-image:linear-gradient(135deg,rgba(255,182,72,.07),transparent 65%),url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20400%20260%27%20fill%3D%27none%27%3E%3Cg%20stroke%3D%27%23ffb648%27%20stroke-opacity%3D%27.32%27%20stroke-width%3D%272%27%3E%3Cpath%20d%3D%27M120%20130C100%2070%20300%2070%20280%20130%27%2F%3E%3Cpath%20d%3D%27M120%20130C80%2020%20320%2020%20280%20130%27%2F%3E%3Cpath%20d%3D%27M120%20130C100%20190%20300%20190%20280%20130%27%2F%3E%3Cpath%20d%3D%27M120%20130C80%20240%20320%20240%20280%20130%27%2F%3E%3C%2Fg%3E%3Crect%20x%3D%27120%27%20y%3D%27112%27%20width%3D%2780%27%20height%3D%2736%27%20rx%3D%274%27%20fill%3D%27%23e8543f%27%20fill-opacity%3D%27.55%27%2F%3E%3Crect%20x%3D%27200%27%20y%3D%27112%27%20width%3D%2780%27%20height%3D%2736%27%20rx%3D%274%27%20fill%3D%27%239aa1ab%27%20fill-opacity%3D%27.5%27%2F%3E%3Ctext%20x%3D%27160%27%20y%3D%27139%27%20text-anchor%3D%27middle%27%20font-family%3D%27sans-serif%27%20font-size%3D%2722%27%20font-weight%3D%27700%27%20fill%3D%27%23eef0f6%27%20fill-opacity%3D%27.6%27%3EN%3C%2Ftext%3E%3Ctext%20x%3D%27240%27%20y%3D%27139%27%20text-anchor%3D%27middle%27%20font-family%3D%27sans-serif%27%20font-size%3D%2722%27%20font-weight%3D%27700%27%20fill%3D%27%23eef0f6%27%20fill-opacity%3D%27.6%27%3ES%3C%2Ftext%3E%3C%2Fsvg%3E");}
+  .kg2{--kc:#6db3ff; --kcs:rgba(109,179,255,.12); background-image:linear-gradient(135deg,rgba(109,179,255,.07),transparent 65%),url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20400%20260%27%20fill%3D%27none%27%3E%3Ccircle%20cx%3D%27290%27%20cy%3D%27130%27%20r%3D%2724%27%20stroke%3D%27%236db3ff%27%20stroke-opacity%3D%270.34%27%20stroke-width%3D%272%27%2F%3E%3Cpolygon%20points%3D%27284%2C106%20296%2C100%20296%2C112%27%20fill%3D%27%236db3ff%27%20fill-opacity%3D%270.44000000000000006%27%2F%3E%3Ccircle%20cx%3D%27290%27%20cy%3D%27130%27%20r%3D%2748%27%20stroke%3D%27%236db3ff%27%20stroke-opacity%3D%270.3%27%20stroke-width%3D%272%27%20stroke-dasharray%3D%276%206%27%2F%3E%3Cpolygon%20points%3D%27284%2C82%20296%2C76%20296%2C88%27%20fill%3D%27%236db3ff%27%20fill-opacity%3D%270.4%27%2F%3E%3Ccircle%20cx%3D%27290%27%20cy%3D%27130%27%20r%3D%2772%27%20stroke%3D%27%236db3ff%27%20stroke-opacity%3D%270.26%27%20stroke-width%3D%272%27%20stroke-dasharray%3D%276%206%27%2F%3E%3Cpolygon%20points%3D%27284%2C58%20296%2C52%20296%2C64%27%20fill%3D%27%236db3ff%27%20fill-opacity%3D%270.36%27%2F%3E%3Ccircle%20cx%3D%27290%27%20cy%3D%27130%27%20r%3D%2796%27%20stroke%3D%27%236db3ff%27%20stroke-opacity%3D%270.22%27%20stroke-width%3D%272%27%20stroke-dasharray%3D%276%206%27%2F%3E%3Cpolygon%20points%3D%27284%2C34%20296%2C28%20296%2C40%27%20fill%3D%27%236db3ff%27%20fill-opacity%3D%270.32%27%2F%3E%3Ccircle%20cx%3D%27290%27%20cy%3D%27130%27%20r%3D%27120%27%20stroke%3D%27%236db3ff%27%20stroke-opacity%3D%270.18%27%20stroke-width%3D%272%27%20stroke-dasharray%3D%276%206%27%2F%3E%3Cpolygon%20points%3D%27284%2C10%20296%2C4%20296%2C16%27%20fill%3D%27%236db3ff%27%20fill-opacity%3D%270.28%27%2F%3E%3Ccircle%20cx%3D%27290%27%20cy%3D%27130%27%20r%3D%278%27%20fill%3D%27%236db3ff%27%20fill-opacity%3D%27.5%27%2F%3E%3C%2Fsvg%3E");}
+  .kg3{--kc:#a78bfa; --kcs:rgba(167,139,250,.12); background-image:linear-gradient(135deg,rgba(167,139,250,.07),transparent 65%),url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20400%20260%27%20fill%3D%27none%27%3E%3Ctext%20x%3D%2724%27%20y%3D%2774%27%20font-family%3D%27monospace%27%20font-size%3D%2734%27%20fill%3D%27%23a78bfa%27%20fill-opacity%3D%270.34%27%3EB%20%3D%20%CE%BC%E2%82%80I%20%2F%202%CF%80r%3C%2Ftext%3E%3Ctext%20x%3D%27150%27%20y%3D%2728%27%20font-family%3D%27monospace%27%20font-size%3D%2720%27%20fill%3D%27%23a78bfa%27%20fill-opacity%3D%270.28%27%3EB%20%3D%20%CE%BC%E2%82%80I%20%2F%202a%3C%2Ftext%3E%3C%2Fsvg%3E");}
+  .kg4{--kc:#5fd6a0; --kcs:rgba(95,214,160,.12); background-image:linear-gradient(135deg,rgba(95,214,160,.07),transparent 65%),url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20400%20260%27%20fill%3D%27none%27%3E%3Cg%20stroke%3D%27%235fd6a0%27%20stroke-opacity%3D%27.30%27%20stroke-width%3D%272.5%27%3E%3Cpath%20d%3D%27M24%20110H244%27%2F%3E%3Cpath%20d%3D%27M34%2040H254%27%2F%3E%3Cpath%20d%3D%27M30%20110L40%2040%27%2F%3E%3Cpath%20d%3D%27M48%20110L58%2040%27%2F%3E%3Cpath%20d%3D%27M66%20110L76%2040%27%2F%3E%3Cpath%20d%3D%27M84%20110L94%2040%27%2F%3E%3Cpath%20d%3D%27M102%20110L112%2040%27%2F%3E%3Cpath%20d%3D%27M120%20110L130%2040%27%2F%3E%3Cpath%20d%3D%27M138%20110L148%2040%27%2F%3E%3Cpath%20d%3D%27M156%20110L166%2040%27%2F%3E%3Cpath%20d%3D%27M174%20110L184%2040%27%2F%3E%3Cpath%20d%3D%27M192%20110L202%2040%27%2F%3E%3Cpath%20d%3D%27M210%20110L220%2040%27%2F%3E%3Cpath%20d%3D%27M228%20110L238%2040%27%2F%3E%3C%2Fg%3E%3Cg%20stroke%3D%27%235fd6a0%27%20stroke-opacity%3D%27.30%27%20stroke-width%3D%272%27%3E%3Ccircle%20cx%3D%27300%27%20cy%3D%27180%27%20r%3D%2768%27%2F%3E%3Ccircle%20cx%3D%27300%27%20cy%3D%27180%27%20r%3D%2736%27%2F%3E%3Cpath%20d%3D%27M336.0%20180.0L368.0%20180.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M334.2%20191.1L364.7%20201.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M329.1%20201.2L355.0%20220.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M321.2%20209.1L340.0%20235.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M311.1%20214.2L321.0%20244.7%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M300.0%20216.0L300.0%20248.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M288.9%20214.2L279.0%20244.7%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M278.8%20209.1L260.0%20235.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M270.9%20201.2L245.0%20220.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M265.8%20191.1L235.3%20201.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M264.0%20180.0L232.0%20180.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M265.8%20168.9L235.3%20159.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M270.9%20158.8L245.0%20140.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M278.8%20150.9L260.0%20125.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M288.9%20145.8L279.0%20115.3%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M300.0%20144.0L300.0%20112.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M311.1%20145.8L321.0%20115.3%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M321.2%20150.9L340.0%20125.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M329.1%20158.8L355.0%20140.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M334.2%20168.9L364.7%20159.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");}
+  .kg5{--kc:#f2665b; --kcs:rgba(242,102,91,.12); background-image:linear-gradient(135deg,rgba(242,102,91,.07),transparent 65%),url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20400%20260%27%20fill%3D%27none%27%3E%3Cg%20stroke%3D%27%23f2665b%27%20stroke-opacity%3D%27.30%27%20stroke-width%3D%272%27%3E%3Ccircle%20cx%3D%27290%27%20cy%3D%27130%27%20r%3D%27100%27%2F%3E%3Ccircle%20cx%3D%27290%27%20cy%3D%27130%27%20r%3D%2770%27%2F%3E%3Ccircle%20cx%3D%27290%27%20cy%3D%27130%27%20r%3D%2740%27%2F%3E%3C%2Fg%3E%3Ccircle%20cx%3D%27290%27%20cy%3D%27130%27%20r%3D%2712%27%20fill%3D%27%23f2665b%27%20fill-opacity%3D%27.4%27%2F%3E%3Cpath%20d%3D%27M290%20130L366%2054%27%20stroke%3D%27%23f2665b%27%20stroke-opacity%3D%27.4%27%20stroke-width%3D%273%27%2F%3E%3Cpath%20d%3D%27M366%2054l-4%2014M366%2054l-14%204M356%2064l-4%2014M356%2064l-14%204%27%20stroke%3D%27%23f2665b%27%20stroke-opacity%3D%27.3%27%20stroke-width%3D%272%27%2F%3E%3Cpath%20d%3D%27M40%20150L90%20200L170%2090%27%20stroke%3D%27%23f2665b%27%20stroke-opacity%3D%27.2%27%20stroke-width%3D%2712%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%2F%3E%3C%2Fsvg%3E");}
+  /* Warna dasar tiap kegiatan */
+  .kg{background-color:color-mix(in srgb, var(--kc) 14%, var(--bg-elevated));}
+  .kg .lkpd-instr{background:color-mix(in srgb, var(--kc) 16%, var(--bg-elevated));}
+  .kuis{background:color-mix(in srgb, var(--kc) 8%, var(--bg-panel));}
+  @media print{ .kg{background:none !important; border:none; padding:0;} }
+</style>
+</head>
+<body oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" oncopy="return false;" oncut="return false;">
+<div class="app">
+
+  <header class="top">
+    <div class="logo-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#171c29" stroke-width="2" stroke-linecap="round"><path d="M6 4h5v9a2.5 2.5 0 0 1-5 0V4Z"/><path d="M13 4h5v9a2.5 2.5 0 0 1-5 0V4Z"/><path d="M6 4v3M11 4v3M13 4v3M18 4v3"/></svg>
+    </div>
+    <div class="brand">
+      <span class="kicker">Lab Maya · Fisika</span>
+      <h1>LKPD Kemagnetan</h1>
+    </div>
+    <div class="header-spacer"></div>
+    <div class="header-status"><span class="dot"></span><span id="headerStatus">Mode LKPD</span></div>
+    <div class="header-actions">
+      <button class="header-btn" id="btnFullscreen" title="Layar penuh" type="button">
+        <svg id="iconFullscreen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M16 3h3a2 2 0 0 1 2 2v3"/><path d="M8 21H5a2 2 0 0 1-2-2v-3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+      </button>
+      <button class="header-btn exit-btn" id="btnExitApp" title="Keluar aplikasi" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ================= LKPD ================= -->
+    <section class="view" id="view-lkpd">
+      <div class="view-header">
+        <p class="eyebrow">Lembar Kerja Peserta Didik</p>
+        <h2>LKPD Ringkas — Kemagnetan: Medan Magnet (Kelas 12)</h2>
+        <p>Kerjakan langsung di halaman ini sambil menjelajahi seluruh mode pada simulasi Kemagnetan (buka lewat tombol <b>Buka Simulasi</b>). Jawaban tersimpan di layar selama sesi ini — gunakan tombol <b>Unduh Jawaban</b> untuk menyimpan semua isianmu ke satu file, lalu kumpulkan file tersebut ke gurumu.</p>
+      </div>
+
+      <div class="lkpd-sheet">
+        <div class="lkpd-topbar">
+          <span class="badge" style="position:static;">Alokasi waktu: 2 × 45 menit</span>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <a class="control-btn ghost" style="width:auto; padding:9px 16px;" href="13_3lm-kemagnetan.html" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h5v9a2.5 2.5 0 0 1-5 0V4Z"/><path d="M13 4h5v9a2.5 2.5 0 0 1-5 0V4Z"/><path d="M6 4v3M11 4v3M13 4v3M18 4v3"/></svg>
+              Buka Simulasi
+            </a>
+            <button class="control-btn" style="width:auto; padding:9px 16px;" onclick="downloadLkpdAnswers()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+              Unduh Jawaban
+            </button>
+            <button class="control-btn ghost" style="width:auto; padding:9px 16px;" onclick="window.print()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+              Cetak / Simpan PDF
+            </button>
+          </div>
+        </div>
+        <p class="lkpd-hint">Petunjuk pengumpulan: setelah selesai, klik <b>Unduh Jawaban</b> — sebuah file teks (.txt) berisi semua isianmu akan otomatis terunduh ke perangkatmu. Unggah file tersebut ke Google Classroom / kirim ke guru sesuai instruksi kelas.</p>
+
+        <h3>Identitas</h3>
+        <div class="field-row field-row-4">
+          <div class="field"><label>NAMA</label><input type="text" id="lkpd-nama" placeholder="Nama peserta didik"></div>
+          <div class="field"><label>KELAS</label><input type="text" id="lkpd-kelas" placeholder="Kelas"></div>
+          <div class="field"><label>KELOMPOK</label><input type="text" id="lkpd-kelompok" placeholder="Kelompok"></div>
+          <div class="field"><label>TANGGAL</label><input type="text" id="lkpd-tanggal" placeholder="dd / mm / yyyy"></div>
+        </div>
+
+        <h3>Tujuan Pembelajaran</h3>
+        <ul>
+          <li>Menjelaskan hubungan arah arus listrik dan arah medan magnet dengan kaidah tangan kanan.</li>
+          <li>Menganalisis pengaruh arus (I), jumlah lilitan (N), dan panjang solenoida (L) terhadap kuat medan magnet (B).</li>
+          <li>Menghitung B pada kawat lurus dan solenoida, lalu memverifikasinya dengan simulasi.</li>
+          <li>Membedakan medan magnet solenoida dan toroida serta mengenali faktor gaya Lorentz.</li>
+        </ul>
+
+        <h3>Alat &amp; Bahan (Virtual)</h3>
+        <ul>
+          <li>Mode <b>Menarik Benda</b> dan <b>Tarik &amp; Tolak Kutub</b> (magnet batang).</li>
+          <li>Mode <b>Kawat Lurus</b> dan <b>Kawat Melingkar</b>.</li>
+          <li>Mode <b>Solenoida</b>, <b>Toroida</b>, dan <b>Busur (Gaya Lorentz)</b>.</li>
+        </ul>
+
+        <div class="kg kg1">
+        <!-- ===================== KEGIATAN 1 ===================== -->
+        <h3>Kegiatan 1 — Menebak Sebelum Mencoba</h3>
+        <p class="lkpd-instr">Jawab prediksimu dulu, baru buka mode <b>Menarik Benda</b> dan <b>Tarik &amp; Tolak Kutub</b> untuk mengeceknya.</p>
+        <div class="discuss-item">
+          <p class="q"><b>1.</b>Sebutkan 2–3 benda yang menurutmu akan tertarik oleh magnet.</p>
+          <div class="field"><input type="text" id="k1-q1" placeholder="Contoh: ..."></div>
+        </div>
+        <div class="discuss-item">
+          <p class="q"><b>2.</b>Prediksimu: apa yang terjadi bila kutub magnet didekatkan?</p>
+          <p class="lkpd-subtitle">Kutub SAMA (utara–utara)</p>
+          <div class="radio-row">
+            <label class="radio-opt"><input type="radio" name="k1-sama" value="Tarik-menarik"> Tarik-menarik</label>
+            <label class="radio-opt"><input type="radio" name="k1-sama" value="Tolak-menolak"> Tolak-menolak</label>
+          </div>
+          <p class="lkpd-subtitle">Kutub BERBEDA (utara–selatan)</p>
+          <div class="radio-row">
+            <label class="radio-opt"><input type="radio" name="k1-beda" value="Tarik-menarik"> Tarik-menarik</label>
+            <label class="radio-opt"><input type="radio" name="k1-beda" value="Tolak-menolak"> Tolak-menolak</label>
+          </div>
+        </div>
+        <div class="discuss-item">
+          <p class="q"><b>3.</b>Setelah mencoba di simulasi, prediksimu ...</p>
+          <div class="radio-row">
+            <label class="radio-opt"><input type="radio" name="k1-cocok" value="Benar semua"> Benar semua</label>
+            <label class="radio-opt"><input type="radio" name="k1-cocok" value="Sebagian benar"> Sebagian benar</label>
+            <label class="radio-opt"><input type="radio" name="k1-cocok" value="Belum benar"> Belum benar</label>
+          </div>
+        </div>
+
+        </div>
+        <div class="kg kg2">
+        <!-- ===================== KEGIATAN 2 ===================== -->
+        <h3>Kegiatan 2 — Eksplorasi Medan Magnet</h3>
+        <p class="lkpd-instr">Buka mode <b>Kawat Lurus</b> dan <b>Kawat Melingkar</b>. Ubah arus (I) sebanyak 3 kali, lalu catat nilai B pada simulasi.</p>
+
+        <p class="lkpd-subtitle">Kuis Kilat — Arah Medan Magnetik di Sekitar Kawat Berarus</p>
+        <div class="kuis">
+          <p class="kz-sub">Gunakan kaidah tangan kanan: ibu jari = arah arus, lipatan jari = arah medan magnetik.</p>
+          <div id="kz-app"></div>
+        </div>
+
+        <p class="lkpd-subtitle">Tabel 2.1 — Kawat Lurus Berarus</p>
+        <table class="obs-table data-table">
+          <thead><tr><th style="width:12%;">No</th><th>Arus I (A)</th><th>Kuat medan B (Tesla)</th></tr></thead>
+          <tbody id="t21-body"></tbody>
+        </table>
+
+        <p class="lkpd-subtitle">Tabel 2.2 — Kawat Melingkar Berarus</p>
+        <table class="obs-table data-table">
+          <thead><tr><th style="width:12%;">No</th><th>Arus I (A)</th><th>Kuat medan B di pusat (Tesla)</th></tr></thead>
+          <tbody id="t22-body"></tbody>
+        </table>
+
+        <div class="discuss-item">
+          <p class="q"><b>1.</b>Berdasarkan tabel, jika arus I diperbesar maka kuat medan magnet B ...</p>
+          <div class="radio-row">
+            <label class="radio-opt"><input type="radio" name="k2-hub" value="Membesar sebanding dengan I"> Membesar sebanding dengan I</label>
+            <label class="radio-opt"><input type="radio" name="k2-hub" value="Mengecil"> Mengecil</label>
+            <label class="radio-opt"><input type="radio" name="k2-hub" value="Tidak berubah"> Tidak berubah</label>
+          </div>
+        </div>
+        <div class="discuss-item">
+          <p class="q"><b>2.</b>Kaidah apa yang dipakai untuk menentukan arah garis gaya magnet di sekitar kawat berarus? Tuliskan cara singkatnya.</p>
+          <div class="field"><input type="text" id="k2-q2" placeholder="Jawabanmu..."></div>
+        </div>
+
+        </div>
+        <div class="kg kg3">
+        <!-- ===================== KEGIATAN 3 ===================== -->
+        <h3>Kegiatan 3 — Dari Data ke Rumus</h3>
+        <p class="lkpd-instr">Diskusikan bersama gurumu, lalu lengkapi rumus berikut.</p>
+        <div class="field-row field-row-2">
+          <div class="field"><label>MEDAN MAGNET KAWAT LURUS PANJANG: B =</label><input type="text" id="k3-rumus1" placeholder="tulis rumus di sini"></div>
+          <div class="field"><label>MEDAN MAGNET PUSAT KAWAT MELINGKAR: B =</label><input type="text" id="k3-rumus2" placeholder="tulis rumus di sini"></div>
+        </div>
+
+        <p class="lkpd-subtitle">Verifikasi: pilih satu data dari Tabel 2.1, hitung B secara manual, lalu bandingkan dengan simulasi.</p>
+        <table class="obs-table data-table">
+          <thead><tr><th>Diketahui (I, r)</th><th>Perhitungan manual (B)</th><th>Angka pada simulasi (B)</th></tr></thead>
+          <tbody id="t3v-body"></tbody>
+        </table>
+
+        </div>
+        <div class="kg kg4">
+        <!-- ===================== KEGIATAN 4 ===================== -->
+        <h3>Kegiatan 4 — Solenoida, Toroida, dan Gaya Lorentz</h3>
+        <p class="lkpd-instr">Buka mode <b>Solenoida</b>. Baris 1 = nilai awal. Baris 2 = ubah <b>hanya I</b>. Baris 3 = ubah <b>hanya N</b>. Catat B pada tiap baris.</p>
+
+        <p class="lkpd-subtitle">Tabel 4.1 — Solenoida</p>
+        <table class="obs-table data-table">
+          <thead><tr><th style="width:8%;">No</th><th>I (A)</th><th>N (lilitan)</th><th>L (cm)</th><th>B (Tesla)</th></tr></thead>
+          <tbody id="t41-body"></tbody>
+        </table>
+
+        <div class="discuss-item">
+          <p class="q"><b>1.</b>Jika panjang solenoida L diperbesar (I dan N tetap), kuat medan B ...</p>
+          <div class="radio-row">
+            <label class="radio-opt"><input type="radio" name="k4-L" value="Membesar"> Membesar</label>
+            <label class="radio-opt"><input type="radio" name="k4-L" value="Mengecil"> Mengecil</label>
+            <label class="radio-opt"><input type="radio" name="k4-L" value="Tidak berubah"> Tidak berubah</label>
+          </div>
+        </div>
+        <div class="discuss-item">
+          <p class="q"><b>2.</b>Buka mode <b>Toroida</b>. Apa perbedaan utama pola medan magnetnya dibanding solenoida?</p>
+          <div class="field"><input type="text" id="k4-q2" placeholder="Jawabanmu..."></div>
+        </div>
+        <div class="discuss-item">
+          <p class="q"><b>3.</b>Buka mode <b>Busur (Gaya Lorentz)</b>. Centang faktor yang memengaruhi besar gaya Lorentz.</p>
+          <div class="radio-row">
+            <label class="radio-opt"><input type="checkbox" name="k4-lorentz" value="Kuat arus / muatan"> Kuat arus / muatan</label>
+            <label class="radio-opt"><input type="checkbox" name="k4-lorentz" value="Kuat medan magnet"> Kuat medan magnet</label>
+            <label class="radio-opt"><input type="checkbox" name="k4-lorentz" value="Panjang kawat / kecepatan"> Panjang kawat / kecepatan</label>
+            <label class="radio-opt"><input type="checkbox" name="k4-lorentz" value="Sudut terhadap medan"> Sudut terhadap medan</label>
+            <label class="radio-opt"><input type="checkbox" name="k4-lorentz" value="Warna kawat"> Warna kawat</label>
+          </div>
+        </div>
+
+        </div>
+        <div class="kg kg5">
+        <!-- ===================== KEGIATAN 5 ===================== -->
+        <h3>Kegiatan 5 — Evaluasi Mandiri</h3>
+        <p class="lkpd-instr">Kerjakan sendiri. Tuliskan diketahui, rumus, dan hasilnya.</p>
+        <div class="discuss-item">
+          <p class="q"><b>1.</b>Kawat lurus dialiri arus 4 A. Hitung kuat medan magnet pada titik berjarak 2 cm dari kawat.</p>
+          <textarea id="k5-q1" placeholder="Jawabanmu..." style="min-height:80px;"></textarea>
+        </div>
+        <div class="discuss-item">
+          <p class="q"><b>2.</b>Solenoida 300 lilitan, panjang 25 cm, dialiri arus 3 A. Hitung kuat medan magnet di dalamnya.</p>
+          <textarea id="k5-q2" placeholder="Jawabanmu..." style="min-height:80px;"></textarea>
+        </div>
+        <div class="discuss-item">
+          <p class="q"><b>3.</b>Jika jumlah lilitan pada soal nomor 2 digandakan (panjang tetap), B menjadi ...</p>
+          <div class="radio-row">
+            <label class="radio-opt"><input type="radio" name="k5-q3" value="1/2 kali"> ½ kali</label>
+            <label class="radio-opt"><input type="radio" name="k5-q3" value="Tetap"> Tetap</label>
+            <label class="radio-opt"><input type="radio" name="k5-q3" value="2 kali"> 2 kali</label>
+            <label class="radio-opt"><input type="radio" name="k5-q3" value="4 kali"> 4 kali</label>
+          </div>
+        </div>
+
+        </div>
+
+        <!-- ===================== REFLEKSI ===================== -->
+        <h3>Refleksi Diri</h3>
+        <div class="field">
+          <label style="margin-bottom:8px; display:block;">SEBERAPA YAKIN KAMU TERHADAP PEMAHAMANMU HARI INI?</label>
+          <div class="radio-row">
+            <label class="radio-opt"><input type="radio" name="reflek-yakin" value="Sangat yakin"> Sangat yakin</label>
+            <label class="radio-opt"><input type="radio" name="reflek-yakin" value="Cukup yakin"> Cukup yakin</label>
+            <label class="radio-opt"><input type="radio" name="reflek-yakin" value="Kurang yakin"> Kurang yakin</label>
+            <label class="radio-opt"><input type="radio" name="reflek-yakin" value="Belum paham"> Belum paham</label>
+          </div>
+        </div>
+        <div class="discuss-item" style="margin-top:14px;">
+          <p class="q">Konsep apa yang masih membingungkan dan ingin kamu tanyakan?</p>
+          <textarea id="reflek-q2" placeholder="Boleh dikosongkan bila sudah paham semua."></textarea>
+        </div>
+
+        <h3>Kesimpulan</h3>
+        <div class="field">
+          <textarea id="lkpd-kesimpulan" style="min-height:70px;" placeholder="Tuliskan kesimpulanmu tentang medan magnet dalam 2–3 kalimat..."></textarea>
+        </div>
+
+        <div class="lkpd-topbar" style="margin-top:24px; border-top:1px solid var(--border-soft); padding-top:18px;">
+          <span></span>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="control-btn" style="width:auto; padding:9px 16px;" onclick="downloadLkpdAnswers()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+              Unduh Jawaban
+            </button>
+            <button class="control-btn ghost" style="width:auto; padding:9px 16px;" onclick="window.print()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+              Cetak / Simpan PDF
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+  </main>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------------- LKPD: baris tabel dinamis & unduh jawaban ---------------- */
+  function buildRows(tbodyId, rowCount, colCount, colTypes){
+    var tbody = document.getElementById(tbodyId);
+    if (!tbody) return;
+    var html = "";
+    for (var r=1; r<=rowCount; r++){
+      html += "<tr><td>"+r+"</td>";
+      for (var c=0; c<colCount; c++){
+        var type = (colTypes && colTypes[c]) ? colTypes[c] : "text";
+        html += '<td><input type="'+type+'" id="'+tbodyId+'-r'+r+'-c'+c+'"></td>';
+      }
+      html += "</tr>";
+    }
+    tbody.innerHTML = html;
+  }
+  // Kolom pertama otomatis nomor urut; sisanya isian
+  buildRows("t21-body", 3, 2, ["number","number"]);                     // Kawat Lurus: I, B
+  buildRows("t22-body", 3, 2, ["number","number"]);                     // Kawat Melingkar: I, B
+  buildRows("t41-body", 3, 4, ["number","number","number","number"]);   // Solenoida: I, N, L, B
+
+  (function buildVerifTable(){
+    var tbody = document.getElementById("t3v-body");
+    if (!tbody) return;
+    tbody.innerHTML =
+      "<tr>"+
+      '<td><input type="text" id="t3v-r1-diket"></td>'+
+      '<td><input type="text" id="t3v-r1-manual"></td>'+
+      '<td><input type="text" id="t3v-r1-sim"></td>'+
+      "</tr>";
+  })();
+
+  function val(id){
+    var el = document.getElementById(id);
+    if (!el) return "";
+    return (el.value || "").trim();
+  }
+  function checkedRadio(name){
+    var el = document.querySelector('input[name="'+name+'"]:checked');
+    return el ? el.value : "";
+  }
+  function checkedBoxes(name){
+    var els = document.querySelectorAll('input[name="'+name+'"]:checked');
+    return Array.prototype.map.call(els, function(e){ return e.value; }).join(", ");
+  }
+  function rowText(prefix, r, cols){
+    return cols.map(function(c){ return val(prefix+"-r"+r+"-"+c) || "-"; }).join("  |  ");
+  }
+
+  function buildLkpdText(){
+    var L = [];
+    function line(s){ L.push(s === undefined ? "" : s); }
+    function section(title){ line(""); line("=".repeat(60)); line(title); line("=".repeat(60)); }
+    function q(num, text, answer){ line(""); line(num+". "+text); line("Jawaban: "+(answer || "(belum diisi)")); }
+
+    line("LKPD — KEMAGNETAN: MEDAN MAGNET (KELAS 12) — VERSI RINGKAS");
+    line("Lab Maya Kemagnetan");
+    line("-".repeat(60));
+    line("Nama      : "+(val("lkpd-nama")||"-"));
+    line("Kelas     : "+(val("lkpd-kelas")||"-"));
+    line("Kelompok  : "+(val("lkpd-kelompok")||"-"));
+    line("Tanggal   : "+(val("lkpd-tanggal")||"-"));
+
+    section("KEGIATAN 1 — MENEBAK SEBELUM MENCOBA");
+    q(1, "Benda yang diprediksi tertarik oleh magnet.", val("k1-q1"));
+    q(2, "Prediksi kutub SAMA didekatkan.", checkedRadio("k1-sama"));
+    q("2b", "Prediksi kutub BERBEDA didekatkan.", checkedRadio("k1-beda"));
+    q(3, "Kecocokan prediksi dengan simulasi.", checkedRadio("k1-cocok"));
+
+    section("KEGIATAN 2 — EKSPLORASI MEDAN MAGNET");
+    var kh = window.kuisHasil ? window.kuisHasil() : null;
+    line(""); line("Kuis arah medan magnetik: "+(kh ? kh.skor+" / "+kh.total : "(belum diselesaikan)"));
+    line(""); line("Tabel 2.1 — Kawat Lurus (No | I (A) | B (Tesla))");
+    for (var r=1; r<=3; r++) line("  "+r+". "+rowText("t21-body", r, ["c0","c1"]));
+    line(""); line("Tabel 2.2 — Kawat Melingkar (No | I (A) | B (Tesla))");
+    for (r=1; r<=3; r++) line("  "+r+". "+rowText("t22-body", r, ["c0","c1"]));
+    q(1, "Jika I diperbesar, B ...", checkedRadio("k2-hub"));
+    q(2, "Kaidah untuk menentukan arah garis gaya magnet.", val("k2-q2"));
+
+    section("KEGIATAN 3 — DARI DATA KE RUMUS");
+    line(""); line("Rumus medan magnet kawat lurus panjang: B = "+(val("k3-rumus1")||"(belum diisi)"));
+    line("Rumus medan magnet pusat kawat melingkar: B = "+(val("k3-rumus2")||"(belum diisi)"));
+    line(""); line("Verifikasi (Diketahui | Perhitungan manual | Angka simulasi)");
+    line("  1. "+rowText("t3v", 1, ["diket","manual","sim"]));
+
+    section("KEGIATAN 4 — SOLENOIDA, TOROIDA, GAYA LORENTZ");
+    line(""); line("Tabel 4.1 — Solenoida (No | I (A) | N | L (cm) | B (Tesla))");
+    for (r=1; r<=3; r++) line("  "+r+". "+rowText("t41-body", r, ["c0","c1","c2","c3"]));
+    q(1, "Jika L diperbesar (I, N tetap), B ...", checkedRadio("k4-L"));
+    q(2, "Perbedaan utama pola medan magnet toroida vs solenoida.", val("k4-q2"));
+    q(3, "Faktor yang memengaruhi gaya Lorentz.", checkedBoxes("k4-lorentz"));
+
+    section("KEGIATAN 5 — EVALUASI MANDIRI");
+    q(1, "Medan magnet titik berjarak 2 cm dari kawat lurus berarus 4 A.", val("k5-q1"));
+    q(2, "Medan magnet solenoida 300 lilitan, panjang 25 cm, arus 3 A.", val("k5-q2"));
+    q(3, "Jika lilitan digandakan (L tetap), B menjadi ...", checkedRadio("k5-q3"));
+
+    section("REFLEKSI DIRI");
+    line(""); line("Tingkat keyakinan: "+(checkedRadio("reflek-yakin")||"(belum dipilih)"));
+    q("-", "Konsep yang masih membingungkan.", val("reflek-q2"));
+
+    section("KESIMPULAN");
+    line(""); line(val("lkpd-kesimpulan")||"(belum diisi)");
+
+    line(""); line("-".repeat(60));
+    line("Diunduh dari Lab Maya Kemagnetan pada "+new Date().toLocaleString("id-ID"));
+    return L.join("\n");
+  }
+
+  window.downloadLkpdAnswers = function(){
+    var text = buildLkpdText();
+    var blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+    var namaRaw = val("lkpd-nama") || "siswa";
+    var namaSafe = namaRaw.replace(/[^a-z0-9]+/gi, "_").replace(/^_+|_+$/g, "") || "siswa";
+    var filename = "LKPD_Kemagnetan_"+namaSafe+".txt";
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+  };
+
+  /* ---------------- Header actions: fullscreen & exit ---------------- */
+  var ICON_EXPAND = '<path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M16 3h3a2 2 0 0 1 2 2v3"/><path d="M8 21H5a2 2 0 0 1-2-2v-3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/>';
+  var ICON_COMPRESS = '<path d="M9 3v3a2 2 0 0 1-2 2H4"/><path d="M15 3v3a2 2 0 0 0 2 2h3"/><path d="M9 21v-3a2 2 0 0 0-2-2H4"/><path d="M15 21v-3a2 2 0 0 1 2-2h3"/>';
+  var btnFullscreen = document.getElementById("btnFullscreen");
+  var iconFullscreen = document.getElementById("iconFullscreen");
+
+  function updateFullscreenIcon(){
+    var isFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+    if (iconFullscreen) iconFullscreen.innerHTML = isFs ? ICON_COMPRESS : ICON_EXPAND;
+    if (btnFullscreen) btnFullscreen.title = isFs ? "Keluar layar penuh" : "Layar penuh";
+  }
+
+  if (btnFullscreen){
+    btnFullscreen.addEventListener("click", function(){
+      var el = document.documentElement;
+      var isFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+      if (!isFs){
+        if (el.requestFullscreen) el.requestFullscreen();
+        else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      }
+    });
+    document.addEventListener("fullscreenchange", updateFullscreenIcon);
+    document.addEventListener("webkitfullscreenchange", updateFullscreenIcon);
+    updateFullscreenIcon();
+  }
+
+  var btnExitApp = document.getElementById("btnExitApp");
+  if (btnExitApp){
+    btnExitApp.addEventListener("click", function(){
+      var ok = window.confirm("Keluar dari Lab Maya Kemagnetan?");
+      if (!ok) return;
+      window.close();
+      setTimeout(function(){
+        if (!window.closed){
+          alert("Silakan tutup tab/jendela ini secara manual untuk keluar dari aplikasi.");
+        }
+      }, 300);
+    });
+  }
+})();
+</script>
+    <script>
+    /* ---------- Kuis arah medan magnetik (Kegiatan 2) ---------- */
+    (function(){
+      "use strict";
+      var N = 10, qs = [], i = 0, score = 0, done = false, hasil = null;
+      var root = document.getElementById("kz-app");
+      if (!root) return;
+      var DOT = '<svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="24" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="30" cy="30" r="6" fill="currentColor"/></svg>';
+      var CROSS = '<svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="24" fill="none" stroke="currentColor" stroke-width="3"/><path d="M15 15L45 45M45 15L15 45" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>';
+
+      window.kuisHasil = function(){ return hasil; };
+
+      function gen(){
+        qs = [];
+        for (var k = 0; k < N; k++){
+          var dir = Math.random() < 0.5 ? 1 : -1;            // +x atau -x
+          var pos = Math.random() < 0.5 ? "atas" : "bawah";
+          // arus +x: atas = keluar bidang, bawah = masuk bidang. Arus -x: kebalikannya
+          qs.push({ dir: dir, pos: pos, out: (dir === 1) === (pos === "atas") });
+        }
+      }
+      function scene(q){
+        var y = q.pos === "atas" ? 45 : 175;
+        var ax = q.dir === 1 ? "M150 110H450" : "M450 110H150";
+        var ah = q.dir === 1 ? "450,110 434,101 434,119" : "150,110 166,101 166,119";
+        return '<svg viewBox="0 0 600 220" role="img" aria-label="Kawat berarus">'+
+          '<text x="580" y="200" text-anchor="end" fill="var(--text-secondary)" font-size="14">sumbu +x →</text>'+
+          '<rect x="100" y="98" width="400" height="24" rx="12" fill="var(--text-secondary)" opacity=".35"/>'+
+          '<path d="'+ax+'" stroke="var(--text-primary)" stroke-width="3" fill="none"/>'+
+          '<polygon points="'+ah+'" fill="var(--text-primary)"/>'+
+          '<text x="300" y="90" text-anchor="middle" fill="var(--text-primary)" font-size="15">arus listrik I ('+(q.dir === 1 ? "searah +x" : "searah −x")+')</text>'+
+          '<circle cx="300" cy="'+y+'" r="14" fill="var(--accent)"/>'+
+          '<text x="300" y="'+(y+5)+'" text-anchor="middle" fill="#171c29" font-size="15" font-weight="700">P</text>'+
+          '</svg>';
+      }
+      function render(){
+        if (done){
+          var p = Math.round(score / N * 100);
+          var msg = p >= 80 ? "Hebat! Kaidah tangan kanan sudah dikuasai." : p >= 60 ? "Cukup baik, ulangi sekali lagi." : "Yuk pelajari lagi kaidah tangan kanan lalu coba ulang.";
+          root.innerHTML = '<div class="big">'+score+' / '+N+'</div>'+
+            '<p class="kz-res">Nilai: <b>'+p+'</b><br>'+msg+'</p>'+
+            '<button type="button" class="nx" style="display:block" data-act="start">Ulangi Kuis</button>';
+          return;
+        }
+        var q = qs[i];
+        root.innerHTML =
+          '<div class="top"><span>Soal '+(i+1)+' dari '+N+'</span><span>Skor: '+score+'</span></div>'+
+          '<div class="bar"><i style="width:'+(i / N * 100)+'%"></i></div>'+
+          scene(q)+
+          '<p class="kz-q"><b>Bagaimana arah medan magnetik di titik P</b> (di '+q.pos+' kawat)?</p>'+
+          '<div class="ch">'+
+            '<button type="button" id="kz-b1" data-act="ans" data-v="1">'+DOT+'Keluar bidang</button>'+
+            '<button type="button" id="kz-b0" data-act="ans" data-v="0">'+CROSS+'Masuk bidang</button>'+
+          '</div>'+
+          '<div class="fb" id="kz-fb"></div>'+
+          '<button type="button" class="nx" id="kz-nx" data-act="next">'+(i === N - 1 ? "Lihat Hasil" : "Soal Berikutnya")+'</button>';
+      }
+      function ans(v){
+        var q = qs[i], ok = (v === q.out);
+        if (ok) score++;
+        var b1 = document.getElementById("kz-b1"), b0 = document.getElementById("kz-b0");
+        b1.disabled = b0.disabled = true;
+        (q.out ? b1 : b0).classList.add("ok");
+        if (!ok) (v ? b1 : b0).classList.add("no");
+        var fb = document.getElementById("kz-fb");
+        fb.className = "fb " + (ok ? "ok" : "no");
+        fb.innerHTML = (ok ? "<b>Benar!</b> " : "<b>Kurang tepat.</b> ") +
+          "Ibu jari tangan kanan menunjuk " + (q.dir === 1 ? "+x (kanan)" : "−x (kiri)") +
+          ". Di " + q.pos + " kawat, lipatan jari " + (q.out ? "keluar dari bidang (•)" : "masuk ke bidang (×)") + ".";
+        document.getElementById("kz-nx").style.display = "block";
+      }
+      function next(){
+        if (i === N - 1){ done = true; hasil = { skor: score, total: N }; }
+        else i++;
+        render();
+      }
+      function start(){ gen(); i = 0; score = 0; done = false; render(); }
+
+      root.addEventListener("click", function(e){
+        var t = e.target.closest("[data-act]");
+        if (!t || t.disabled) return;
+        var a = t.getAttribute("data-act");
+        if (a === "ans") ans(t.getAttribute("data-v") === "1");
+        else if (a === "next") next();
+        else if (a === "start") start();
+      });
+      start();
+    })();
+    </script>
+    <script>
+        // ===== Proteksi Konten: cegah simpan, cetak, seleksi teks, dan drag =====
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('selectstart', function (e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('dragstart', function (e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('copy', function (e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('cut', function (e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('keydown', function (e) {
+            const key = e.key ? e.key.toLowerCase() : '';
+            const ctrlOrCmd = e.ctrlKey || e.metaKey;
+
+            // Ctrl/Cmd + S (Save), Ctrl/Cmd + P (Print), Ctrl/Cmd + U (View Source)
+            if (ctrlOrCmd && (key === 's' || key === 'p' || key === 'u')) {
+                e.preventDefault();
+                return false;
+            }
+
+            // Ctrl/Cmd + Shift + I / J / C (DevTools), F12
+            if (
+                (ctrlOrCmd && e.shiftKey && (key === 'i' || key === 'j' || key === 'c')) ||
+                key === 'f12'
+            ) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        window.addEventListener('beforeprint', function () {
+            document.body.style.visibility = 'hidden';
+        });
+        window.addEventListener('afterprint', function () {
+            document.body.style.visibility = 'visible';
+        });
+    </script>
+</body>
+</html>
