@@ -747,37 +747,96 @@
     /* ---------- Kuis arah medan magnetik (Kegiatan 2) ---------- */
     (function(){
       "use strict";
-      var N = 10, qs = [], i = 0, score = 0, done = false, hasil = null;
+      /* Bank soal: 12 kasus (semua arah arus x 2 posisi P)
+         - Arus +x, −x, +y, −y  (dalam bidang)  → P di atas/bawah (arus sumbu x) atau kiri/kanan (arus sumbu y) → jawaban: keluar/masuk bidang
+         - Arus keluar/masuk bidang (tegak lurus) → P di kiri/kanan → jawaban: ke atas/ke bawah */
+      var qs = [], N = 12, i = 0, score = 0, done = false, hasil = null;
       var root = document.getElementById("kz-app");
       if (!root) return;
       var DOT = '<svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="24" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="30" cy="30" r="6" fill="currentColor"/></svg>';
       var CROSS = '<svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="24" fill="none" stroke="currentColor" stroke-width="3"/><path d="M15 15L45 45M45 15L15 45" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>';
+      var UP = '<svg viewBox="0 0 60 60"><path d="M30 52V10M14 26L30 10L46 26" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      var DOWN = '<svg viewBox="0 0 60 60"><path d="M30 8V50M14 34L30 50L46 34" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
       window.kuisHasil = function(){ return hasil; };
 
+      /* vektor satuan: x kanan, y atas, z keluar bidang. Arah B = I × r̂ (r̂: dari kawat ke P) */
+      var ARUS = {
+        "+x": { v:[1,0,0],  txt:"searah +x" },
+        "−x": { v:[-1,0,0], txt:"searah −x" },
+        "+y": { v:[0,1,0],  txt:"searah +y" },
+        "−y": { v:[0,-1,0], txt:"searah −y" },
+        "keluar": { v:[0,0,1],  txt:"keluar bidang" },
+        "masuk":  { v:[0,0,-1], txt:"masuk bidang" }
+      };
+      var POS = {
+        "atas":  { v:[0,1,0],  txt:"di atas kawat" },
+        "bawah": { v:[0,-1,0], txt:"di bawah kawat" },
+        "kiri":  { v:[-1,0,0], txt:"di sebelah kiri kawat" },
+        "kanan": { v:[1,0,0],  txt:"di sebelah kanan kawat" }
+      };
+      function cross(a, b){ return [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]]; }
+
       function gen(){
-        qs = [];
-        for (var k = 0; k < N; k++){
-          var dir = Math.random() < 0.5 ? 1 : -1;            // +x atau -x
-          var pos = Math.random() < 0.5 ? "atas" : "bawah";
-          // arus +x: atas = keluar bidang, bawah = masuk bidang. Arus -x: kebalikannya
-          qs.push({ dir: dir, pos: pos, out: (dir === 1) === (pos === "atas") });
+        var combos = [
+          ["+x","atas"],["+x","bawah"],["−x","atas"],["−x","bawah"],
+          ["+y","kiri"],["+y","kanan"],["−y","kiri"],["−y","kanan"],
+          ["keluar","kiri"],["keluar","kanan"],["masuk","kiri"],["masuk","kanan"]
+        ];
+        for (var k = combos.length - 1; k > 0; k--){            // acak urutan soal
+          var j = Math.floor(Math.random() * (k + 1)), t = combos[k]; combos[k] = combos[j]; combos[j] = t;
         }
+        qs = combos.map(function(c){
+          var B = cross(ARUS[c[0]].v, POS[c[1]].v);
+          var q = { arus: c[0], pos: c[1], perp: (c[0] === "keluar" || c[0] === "masuk") };
+          if (q.perp){
+            q.opts = [{ ic: UP, t: "Ke atas (+y)" }, { ic: DOWN, t: "Ke bawah (−y)" }];
+            q.ans = B[1] > 0 ? 0 : 1;
+            q.hasilTxt = B[1] > 0 ? "ke atas (+y)" : "ke bawah (−y)";
+          } else {
+            q.opts = [{ ic: DOT, t: "Keluar bidang" }, { ic: CROSS, t: "Masuk bidang" }];
+            q.ans = B[2] > 0 ? 0 : 1;
+            q.hasilTxt = B[2] > 0 ? "keluar dari bidang (•)" : "masuk ke bidang (×)";
+          }
+          return q;
+        });
+        N = qs.length;
       }
+
       function scene(q){
-        var y = q.pos === "atas" ? 45 : 175;
-        var ax = q.dir === 1 ? "M150 110H450" : "M450 110H150";
-        var ah = q.dir === 1 ? "450,110 434,101 434,119" : "150,110 166,101 166,119";
-        return '<svg viewBox="0 0 600 220" role="img" aria-label="Kawat berarus">'+
-          '<text x="580" y="200" text-anchor="end" fill="var(--text-secondary)" font-size="14">sumbu +x →</text>'+
-          '<rect x="100" y="98" width="400" height="24" rx="12" fill="var(--text-secondary)" opacity=".35"/>'+
-          '<path d="'+ax+'" stroke="var(--text-primary)" stroke-width="3" fill="none"/>'+
-          '<polygon points="'+ah+'" fill="var(--text-primary)"/>'+
-          '<text x="300" y="90" text-anchor="middle" fill="var(--text-primary)" font-size="15">arus listrik I ('+(q.dir === 1 ? "searah +x" : "searah −x")+')</text>'+
-          '<circle cx="300" cy="'+y+'" r="14" fill="var(--accent)"/>'+
-          '<text x="300" y="'+(y+5)+'" text-anchor="middle" fill="#171c29" font-size="15" font-weight="700">P</text>'+
-          '</svg>';
+        var a = q.arus, s = "";
+        var px = 300, py = 110;
+        if (q.pos === "atas") py = 45; else if (q.pos === "bawah") py = 175;
+        else if (q.pos === "kiri") px = 150; else px = 450;
+
+        s += '<svg viewBox="0 0 600 220" role="img" aria-label="Kawat berarus">';
+        s += '<text x="580" y="212" text-anchor="end" fill="var(--text-secondary)" font-size="14">sumbu +x →</text>';
+        s += '<text x="580" y="18" text-anchor="end" fill="var(--text-secondary)" font-size="14">sumbu +y ↑</text>';
+
+        if (q.perp){
+          s += '<circle cx="300" cy="110" r="26" fill="var(--text-secondary)" opacity=".35"/>';
+          s += '<circle cx="300" cy="110" r="26" fill="none" stroke="var(--text-primary)" stroke-width="2"/>';
+          if (a === "keluar") s += '<circle cx="300" cy="110" r="6" fill="var(--text-primary)"/>';
+          else s += '<path d="M287 97L313 123M313 97L287 123" stroke="var(--text-primary)" stroke-width="3" stroke-linecap="round"/>';
+          s += '<text x="300" y="62" text-anchor="middle" fill="var(--text-primary)" font-size="15">arus listrik I ('+ARUS[a].txt+')</text>';
+        } else if (a === "+x" || a === "−x"){
+          var pos = a === "+x";
+          s += '<rect x="100" y="98" width="400" height="24" rx="12" fill="var(--text-secondary)" opacity=".35"/>';
+          s += '<path d="'+(pos ? "M150 110H450" : "M450 110H150")+'" stroke="var(--text-primary)" stroke-width="3" fill="none"/>';
+          s += '<polygon points="'+(pos ? "450,110 434,101 434,119" : "150,110 166,101 166,119")+'" fill="var(--text-primary)"/>';
+          s += '<text x="300" y="90" text-anchor="middle" fill="var(--text-primary)" font-size="15">arus listrik I ('+ARUS[a].txt+')</text>';
+        } else {
+          var up = a === "+y";
+          s += '<rect x="288" y="26" width="24" height="178" rx="12" fill="var(--text-secondary)" opacity=".35"/>';
+          s += '<path d="'+(up ? "M300 185V45" : "M300 45V185")+'" stroke="var(--text-primary)" stroke-width="3" fill="none"/>';
+          s += '<polygon points="'+(up ? "300,42 291,58 309,58" : "300,188 291,172 309,172")+'" fill="var(--text-primary)"/>';
+          s += '<text x="300" y="16" text-anchor="middle" fill="var(--text-primary)" font-size="15">arus listrik I ('+ARUS[a].txt+')</text>';
+        }
+        s += '<circle cx="'+px+'" cy="'+py+'" r="14" fill="var(--accent)"/>';
+        s += '<text x="'+px+'" y="'+(py+5)+'" text-anchor="middle" fill="#171c29" font-size="15" font-weight="700">P</text>';
+        return s + '</svg>';
       }
+
       function render(){
         if (done){
           var p = Math.round(score / N * 100);
@@ -792,26 +851,33 @@
           '<div class="top"><span>Soal '+(i+1)+' dari '+N+'</span><span>Skor: '+score+'</span></div>'+
           '<div class="bar"><i style="width:'+(i / N * 100)+'%"></i></div>'+
           scene(q)+
-          '<p class="kz-q"><b>Bagaimana arah medan magnetik di titik P</b> (di '+q.pos+' kawat)?</p>'+
+          '<p class="kz-q"><b>Bagaimana arah medan magnetik di titik P</b> ('+POS[q.pos].txt+')?</p>'+
           '<div class="ch">'+
-            '<button type="button" id="kz-b1" data-act="ans" data-v="1">'+DOT+'Keluar bidang</button>'+
-            '<button type="button" id="kz-b0" data-act="ans" data-v="0">'+CROSS+'Masuk bidang</button>'+
+            '<button type="button" id="kz-b0" data-act="ans" data-v="0">'+q.opts[0].ic+q.opts[0].t+'</button>'+
+            '<button type="button" id="kz-b1" data-act="ans" data-v="1">'+q.opts[1].ic+q.opts[1].t+'</button>'+
           '</div>'+
           '<div class="fb" id="kz-fb"></div>'+
           '<button type="button" class="nx" id="kz-nx" data-act="next">'+(i === N - 1 ? "Lihat Hasil" : "Soal Berikutnya")+'</button>';
       }
+
       function ans(v){
-        var q = qs[i], ok = (v === q.out);
+        var q = qs[i], ok = (v === q.ans);
         if (ok) score++;
-        var b1 = document.getElementById("kz-b1"), b0 = document.getElementById("kz-b0");
-        b1.disabled = b0.disabled = true;
-        (q.out ? b1 : b0).classList.add("ok");
-        if (!ok) (v ? b1 : b0).classList.add("no");
+        var b = [document.getElementById("kz-b0"), document.getElementById("kz-b1")];
+        b[0].disabled = b[1].disabled = true;
+        b[q.ans].classList.add("ok");
+        if (!ok) b[v].classList.add("no");
         var fb = document.getElementById("kz-fb");
         fb.className = "fb " + (ok ? "ok" : "no");
-        fb.innerHTML = (ok ? "<b>Benar!</b> " : "<b>Kurang tepat.</b> ") +
-          "Ibu jari tangan kanan menunjuk " + (q.dir === 1 ? "+x (kanan)" : "−x (kiri)") +
-          ". Di " + q.pos + " kawat, lipatan jari " + (q.out ? "keluar dari bidang (•)" : "masuk ke bidang (×)") + ".";
+        var why;
+        if (q.perp){
+          why = "Arus " + ARUS[q.arus].txt + (q.arus === "keluar" ? " (ibu jari mengarah ke luar layar, medan berputar berlawanan arah jarum jam)" : " (ibu jari mengarah masuk layar, medan berputar searah jarum jam)") +
+                ". " + POS[q.pos].txt.replace("di ", "Di ") + ", medan magnetik mengarah " + q.hasilTxt + ".";
+        } else {
+          var ib = { "+x":"+x (kanan)", "−x":"−x (kiri)", "+y":"+y (atas)", "−y":"−y (bawah)" }[q.arus];
+          why = "Ibu jari tangan kanan menunjuk " + ib + ". " + POS[q.pos].txt.replace("di ", "Di ") + ", lipatan jari " + q.hasilTxt + ".";
+        }
+        fb.innerHTML = (ok ? "<b>Benar!</b> " : "<b>Kurang tepat.</b> ") + why;
         document.getElementById("kz-nx").style.display = "block";
       }
       function next(){
@@ -825,7 +891,7 @@
         var t = e.target.closest("[data-act]");
         if (!t || t.disabled) return;
         var a = t.getAttribute("data-act");
-        if (a === "ans") ans(t.getAttribute("data-v") === "1");
+        if (a === "ans") ans(parseInt(t.getAttribute("data-v"), 10));
         else if (a === "next") next();
         else if (a === "start") start();
       });
