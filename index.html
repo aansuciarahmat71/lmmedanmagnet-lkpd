@@ -3,31 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
 <title>Lab Maya · LKPD Kemagnetan (Ringkas)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#10131c;
-    --bg-elevated:#171c29;
-    --bg-panel:#1c2233;
-    --bg-panel-2:#212840;
-    --border:#2b3350;
-    --border-soft:#232a42;
-    --text-primary:#eef0f6;
-    --text-secondary:#8d95b0;
-    --text-tertiary:#5c6480;
-    --accent:#ffb648;
-    --accent-dim:#5c481f;
-    --accent-soft:rgba(255,182,72,0.12);
-    --pole-n:#e8543f;
-    --pole-n-soft:rgba(232,84,63,0.16);
-    --pole-s:#9aa1ab;
-    --pole-s-text:#1c2233;
-    --state-attract:#5fd6a0;
-    --state-attract-soft:rgba(95,214,160,0.14);
-    --state-repel:#f2665b;
-    --state-repel-soft:rgba(242,102,91,0.14);
+    --bg:#f3f5fa;
+    --bg-elevated:#ffffff;
+    --bg-panel:#ffffff;
+    --bg-panel-2:#eef1f8;
+    --border:#dde2ee;
+    --border-soft:#e8ebf3;
+    --text-primary:#1b2133;
+    --text-secondary:#5e6680;
+    --text-tertiary:#9097af;
+    --accent:#d97706;
+    --accent-dim:#ffe4bd;
+    --accent-soft:rgba(217,119,6,0.12);
+    --pole-n:#d6432f;
+    --pole-n-soft:rgba(214,67,47,0.12);
+    --pole-s:#8b93a6;
+    --pole-s-text:#1b2133;
+    --state-attract:#1f9d6c;
+    --state-attract-soft:rgba(31,157,108,0.14);
+    --state-repel:#d6453f;
+    --state-repel-soft:rgba(214,69,63,0.14);
     --font-display:'Space Grotesk', sans-serif;
     --font-body:'Inter', sans-serif;
     --font-mono:'JetBrains Mono', monospace;
@@ -273,7 +274,8 @@
   .kuis .bar{height:6px; background:var(--border); border-radius:6px; overflow:hidden; margin:8px 0;}
   .kuis .bar i{display:block; height:100%; background:var(--accent); transition:width .3s;}
   .kuis svg{width:100%; height:auto; display:block;}
-  .kuis .kz-q{margin:6px 0 0; font-size:13.6px; line-height:1.55;}
+  .kuis .kz-q{margin:16px 0 0; font-size:13.6px; line-height:1.55;}
+  .kuis .kz-q:first-of-type{margin-top:10px;}
   .kuis .ch{display:flex; gap:10px; margin-top:8px;}
   .kuis .ch button{flex:1; padding:12px 6px; border:2px solid var(--border); border-radius:12px; background:var(--bg-panel-2); color:var(--text-primary); font-size:13.5px; cursor:pointer;}
   .kuis .ch button:hover:not(:disabled){border-color:var(--accent);}
@@ -303,7 +305,6 @@
   @media (max-width:640px){ .kg{padding:18px 14px; background-size:auto, 240px auto;} }
   .kg1{--kc:#ffb648; --kcs:rgba(255,182,72,.12); background-image:linear-gradient(135deg,rgba(255,182,72,.07),transparent 65%),url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20400%20260%27%20fill%3D%27none%27%3E%3Cg%20stroke%3D%27%23ffb648%27%20stroke-opacity%3D%27.32%27%20stroke-width%3D%272%27%3E%3Cpath%20d%3D%27M120%20130C100%2070%20300%2070%20280%20130%27%2F%3E%3Cpath%20d%3D%27M120%20130C80%2020%20320%2020%20280%20130%27%2F%3E%3Cpath%20d%3D%27M120%20130C100%20190%20300%20190%20280%20130%27%2F%3E%3Cpath%20d%3D%27M120%20130C80%20240%20320%20240%20280%20130%27%2F%3E%3C%2Fg%3E%3Crect%20x%3D%27120%27%20y%3D%27112%27%20width%3D%2780%27%20height%3D%2736%27%20rx%3D%274%27%20fill%3D%27%23e8543f%27%20fill-opacity%3D%27.55%27%2F%3E%3Crect%20x%3D%27200%27%20y%3D%27112%27%20width%3D%2780%27%20height%3D%2736%27%20rx%3D%274%27%20fill%3D%27%239aa1ab%27%20fill-opacity%3D%27.5%27%2F%3E%3Ctext%20x%3D%27160%27%20y%3D%27139%27%20text-anchor%3D%27middle%27%20font-family%3D%27sans-serif%27%20font-size%3D%2722%27%20font-weight%3D%27700%27%20fill%3D%27%23eef0f6%27%20fill-opacity%3D%27.6%27%3EN%3C%2Ftext%3E%3Ctext%20x%3D%27240%27%20y%3D%27139%27%20text-anchor%3D%27middle%27%20font-family%3D%27sans-serif%27%20font-size%3D%2722%27%20font-weight%3D%27700%27%20fill%3D%27%23eef0f6%27%20fill-opacity%3D%27.6%27%3ES%3C%2Ftext%3E%3C%2Fsvg%3E");}
   .kg2{--kc:#6db3ff; --kcs:rgba(109,179,255,.12); background-image:linear-gradient(135deg,rgba(109,179,255,.07),transparent 65%),url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20400%20260%27%20fill%3D%27none%27%3E%3Ccircle%20cx%3D%27290%27%20cy%3D%27130%27%20r%3D%2724%27%20stroke%3D%27%236db3ff%27%20stroke-opacity%3D%270.34%27%20stroke-width%3D%272%27%2F%3E%3Cpolygon%20points%3D%27284%2C106%20296%2C100%20296%2C112%27%20fill%3D%27%236db3ff%27%20fill-opacity%3D%270.44000000000000006%27%2F%3E%3Ccircle%20cx%3D%27290%27%20cy%3D%27130%27%20r%3D%2748%27%20stroke%3D%27%236db3ff%27%20stroke-opacity%3D%270.3%27%20stroke-width%3D%272%27%20stroke-dasharray%3D%276%206%27%2F%3E%3Cpolygon%20points%3D%27284%2C82%20296%2C76%20296%2C88%27%20fill%3D%27%236db3ff%27%20fill-opacity%3D%270.4%27%2F%3E%3Ccircle%20cx%3D%27290%27%20cy%3D%27130%27%20r%3D%2772%27%20stroke%3D%27%236db3ff%27%20stroke-opacity%3D%270.26%27%20stroke-width%3D%272%27%20stroke-dasharray%3D%276%206%27%2F%3E%3Cpolygon%20points%3D%27284%2C58%20296%2C52%20296%2C64%27%20fill%3D%27%236db3ff%27%20fill-opacity%3D%270.36%27%2F%3E%3Ccircle%20cx%3D%27290%27%20cy%3D%27130%27%20r%3D%2796%27%20stroke%3D%27%236db3ff%27%20stroke-opacity%3D%270.22%27%20stroke-width%3D%272%27%20stroke-dasharray%3D%276%206%27%2F%3E%3Cpolygon%20points%3D%27284%2C34%20296%2C28%20296%2C40%27%20fill%3D%27%236db3ff%27%20fill-opacity%3D%270.32%27%2F%3E%3Ccircle%20cx%3D%27290%27%20cy%3D%27130%27%20r%3D%27120%27%20stroke%3D%27%236db3ff%27%20stroke-opacity%3D%270.18%27%20stroke-width%3D%272%27%20stroke-dasharray%3D%276%206%27%2F%3E%3Cpolygon%20points%3D%27284%2C10%20296%2C4%20296%2C16%27%20fill%3D%27%236db3ff%27%20fill-opacity%3D%270.28%27%2F%3E%3Ccircle%20cx%3D%27290%27%20cy%3D%27130%27%20r%3D%278%27%20fill%3D%27%236db3ff%27%20fill-opacity%3D%27.5%27%2F%3E%3C%2Fsvg%3E");}
-  .kg3{--kc:#a78bfa; --kcs:rgba(167,139,250,.12); background-image:linear-gradient(135deg,rgba(167,139,250,.07),transparent 65%),url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20400%20260%27%20fill%3D%27none%27%3E%3Ctext%20x%3D%2724%27%20y%3D%2774%27%20font-family%3D%27monospace%27%20font-size%3D%2734%27%20fill%3D%27%23a78bfa%27%20fill-opacity%3D%270.34%27%3EB%20%3D%20%CE%BC%E2%82%80I%20%2F%202%CF%80r%3C%2Ftext%3E%3Ctext%20x%3D%27150%27%20y%3D%2728%27%20font-family%3D%27monospace%27%20font-size%3D%2720%27%20fill%3D%27%23a78bfa%27%20fill-opacity%3D%270.28%27%3EB%20%3D%20%CE%BC%E2%82%80I%20%2F%202a%3C%2Ftext%3E%3C%2Fsvg%3E");}
   .kg4{--kc:#5fd6a0; --kcs:rgba(95,214,160,.12); background-image:linear-gradient(135deg,rgba(95,214,160,.07),transparent 65%),url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20400%20260%27%20fill%3D%27none%27%3E%3Cg%20stroke%3D%27%235fd6a0%27%20stroke-opacity%3D%27.30%27%20stroke-width%3D%272.5%27%3E%3Cpath%20d%3D%27M24%20110H244%27%2F%3E%3Cpath%20d%3D%27M34%2040H254%27%2F%3E%3Cpath%20d%3D%27M30%20110L40%2040%27%2F%3E%3Cpath%20d%3D%27M48%20110L58%2040%27%2F%3E%3Cpath%20d%3D%27M66%20110L76%2040%27%2F%3E%3Cpath%20d%3D%27M84%20110L94%2040%27%2F%3E%3Cpath%20d%3D%27M102%20110L112%2040%27%2F%3E%3Cpath%20d%3D%27M120%20110L130%2040%27%2F%3E%3Cpath%20d%3D%27M138%20110L148%2040%27%2F%3E%3Cpath%20d%3D%27M156%20110L166%2040%27%2F%3E%3Cpath%20d%3D%27M174%20110L184%2040%27%2F%3E%3Cpath%20d%3D%27M192%20110L202%2040%27%2F%3E%3Cpath%20d%3D%27M210%20110L220%2040%27%2F%3E%3Cpath%20d%3D%27M228%20110L238%2040%27%2F%3E%3C%2Fg%3E%3Cg%20stroke%3D%27%235fd6a0%27%20stroke-opacity%3D%27.30%27%20stroke-width%3D%272%27%3E%3Ccircle%20cx%3D%27300%27%20cy%3D%27180%27%20r%3D%2768%27%2F%3E%3Ccircle%20cx%3D%27300%27%20cy%3D%27180%27%20r%3D%2736%27%2F%3E%3Cpath%20d%3D%27M336.0%20180.0L368.0%20180.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M334.2%20191.1L364.7%20201.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M329.1%20201.2L355.0%20220.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M321.2%20209.1L340.0%20235.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M311.1%20214.2L321.0%20244.7%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M300.0%20216.0L300.0%20248.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M288.9%20214.2L279.0%20244.7%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M278.8%20209.1L260.0%20235.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M270.9%20201.2L245.0%20220.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M265.8%20191.1L235.3%20201.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M264.0%20180.0L232.0%20180.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M265.8%20168.9L235.3%20159.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M270.9%20158.8L245.0%20140.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M278.8%20150.9L260.0%20125.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M288.9%20145.8L279.0%20115.3%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M300.0%20144.0L300.0%20112.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M311.1%20145.8L321.0%20115.3%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M321.2%20150.9L340.0%20125.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M329.1%20158.8L355.0%20140.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3Cpath%20d%3D%27M334.2%20168.9L364.7%20159.0%27%20stroke-opacity%3D%27.22%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");}
   .kg5{--kc:#f2665b; --kcs:rgba(242,102,91,.12); background-image:linear-gradient(135deg,rgba(242,102,91,.07),transparent 65%),url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20400%20260%27%20fill%3D%27none%27%3E%3Cg%20stroke%3D%27%23f2665b%27%20stroke-opacity%3D%27.30%27%20stroke-width%3D%272%27%3E%3Ccircle%20cx%3D%27290%27%20cy%3D%27130%27%20r%3D%27100%27%2F%3E%3Ccircle%20cx%3D%27290%27%20cy%3D%27130%27%20r%3D%2770%27%2F%3E%3Ccircle%20cx%3D%27290%27%20cy%3D%27130%27%20r%3D%2740%27%2F%3E%3C%2Fg%3E%3Ccircle%20cx%3D%27290%27%20cy%3D%27130%27%20r%3D%2712%27%20fill%3D%27%23f2665b%27%20fill-opacity%3D%27.4%27%2F%3E%3Cpath%20d%3D%27M290%20130L366%2054%27%20stroke%3D%27%23f2665b%27%20stroke-opacity%3D%27.4%27%20stroke-width%3D%273%27%2F%3E%3Cpath%20d%3D%27M366%2054l-4%2014M366%2054l-14%204M356%2064l-4%2014M356%2064l-14%204%27%20stroke%3D%27%23f2665b%27%20stroke-opacity%3D%27.3%27%20stroke-width%3D%272%27%2F%3E%3Cpath%20d%3D%27M40%20150L90%20200L170%2090%27%20stroke%3D%27%23f2665b%27%20stroke-opacity%3D%27.2%27%20stroke-width%3D%2712%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%2F%3E%3C%2Fsvg%3E");}
   /* Warna dasar tiap kegiatan */
@@ -457,28 +458,12 @@
         </div>
 
         </div>
-        <div class="kg kg3">
-        <!-- ===================== KEGIATAN 3 ===================== -->
-        <h3>Kegiatan 3 — Dari Data ke Rumus</h3>
-        <p class="lkpd-instr">Diskusikan bersama gurumu, lalu lengkapi rumus berikut.</p>
-        <div class="field-row field-row-2">
-          <div class="field"><label>MEDAN MAGNET KAWAT LURUS PANJANG: B =</label><input type="text" id="k3-rumus1" placeholder="tulis rumus di sini"></div>
-          <div class="field"><label>MEDAN MAGNET PUSAT KAWAT MELINGKAR: B =</label><input type="text" id="k3-rumus2" placeholder="tulis rumus di sini"></div>
-        </div>
-
-        <p class="lkpd-subtitle">Verifikasi: pilih satu data dari Tabel 2.1, hitung B secara manual, lalu bandingkan dengan simulasi.</p>
-        <table class="obs-table data-table">
-          <thead><tr><th>Diketahui (I, r)</th><th>Perhitungan manual (B)</th><th>Angka pada simulasi (B)</th></tr></thead>
-          <tbody id="t3v-body"></tbody>
-        </table>
-
-        </div>
         <div class="kg kg4">
-        <!-- ===================== KEGIATAN 4 ===================== -->
-        <h3>Kegiatan 4 — Solenoida, Toroida, dan Gaya Lorentz</h3>
+        <!-- ===================== KEGIATAN 3 (sebelumnya Kegiatan 4) ===================== -->
+        <h3>Kegiatan 3 — Solenoida, Toroida, dan Gaya Lorentz</h3>
         <p class="lkpd-instr">Buka mode <b>Solenoida</b>. Baris 1 = nilai awal. Baris 2 = ubah <b>hanya I</b>. Baris 3 = ubah <b>hanya N</b>. Catat B pada tiap baris.</p>
 
-        <p class="lkpd-subtitle">Tabel 4.1 — Solenoida</p>
+        <p class="lkpd-subtitle">Tabel 3.1 — Solenoida</p>
         <table class="obs-table data-table">
           <thead><tr><th style="width:8%;">No</th><th>I (A)</th><th>N (lilitan)</th><th>L (cm)</th><th>B (Tesla)</th></tr></thead>
           <tbody id="t41-body"></tbody>
@@ -509,8 +494,8 @@
 
         </div>
         <div class="kg kg5">
-        <!-- ===================== KEGIATAN 5 ===================== -->
-        <h3>Kegiatan 5 — Evaluasi Mandiri</h3>
+        <!-- ===================== KEGIATAN 4 (sebelumnya Kegiatan 5) ===================== -->
+        <h3>Kegiatan 4 — Evaluasi Mandiri</h3>
         <p class="lkpd-instr">Kerjakan sendiri. Tuliskan diketahui, rumus, dan hasilnya.</p>
         <div class="discuss-item">
           <p class="q"><b>1.</b>Kawat lurus dialiri arus 4 A. Hitung kuat medan magnet pada titik berjarak 2 cm dari kawat.</p>
@@ -598,17 +583,6 @@
   buildRows("t22-body", 3, 2, ["number","number"]);                     // Kawat Melingkar: I, B
   buildRows("t41-body", 3, 4, ["number","number","number","number"]);   // Solenoida: I, N, L, B
 
-  (function buildVerifTable(){
-    var tbody = document.getElementById("t3v-body");
-    if (!tbody) return;
-    tbody.innerHTML =
-      "<tr>"+
-      '<td><input type="text" id="t3v-r1-diket"></td>'+
-      '<td><input type="text" id="t3v-r1-manual"></td>'+
-      '<td><input type="text" id="t3v-r1-sim"></td>'+
-      "</tr>";
-  })();
-
   function val(id){
     var el = document.getElementById(id);
     if (!el) return "";
@@ -648,7 +622,7 @@
 
     section("KEGIATAN 2 — EKSPLORASI MEDAN MAGNET");
     var kh = window.kuisHasil ? window.kuisHasil() : null;
-    line(""); line("Kuis arah medan magnetik: "+(kh ? kh.skor+" / "+kh.total : "(belum diselesaikan)"));
+    line(""); line("Kuis arah medan magnetik: "+(kh ? kh.skor+" / "+kh.total+"  |  Waktu pengerjaan: "+kh.waktuText : "(belum diselesaikan)"));
     line(""); line("Tabel 2.1 — Kawat Lurus (No | I (A) | B (Tesla))");
     for (var r=1; r<=3; r++) line("  "+r+". "+rowText("t21-body", r, ["c0","c1"]));
     line(""); line("Tabel 2.2 — Kawat Melingkar (No | I (A) | B (Tesla))");
@@ -656,20 +630,14 @@
     q(1, "Jika I diperbesar, B ...", checkedRadio("k2-hub"));
     q(2, "Kaidah untuk menentukan arah garis gaya magnet.", val("k2-q2"));
 
-    section("KEGIATAN 3 — DARI DATA KE RUMUS");
-    line(""); line("Rumus medan magnet kawat lurus panjang: B = "+(val("k3-rumus1")||"(belum diisi)"));
-    line("Rumus medan magnet pusat kawat melingkar: B = "+(val("k3-rumus2")||"(belum diisi)"));
-    line(""); line("Verifikasi (Diketahui | Perhitungan manual | Angka simulasi)");
-    line("  1. "+rowText("t3v", 1, ["diket","manual","sim"]));
-
-    section("KEGIATAN 4 — SOLENOIDA, TOROIDA, GAYA LORENTZ");
-    line(""); line("Tabel 4.1 — Solenoida (No | I (A) | N | L (cm) | B (Tesla))");
+    section("KEGIATAN 3 — SOLENOIDA, TOROIDA, GAYA LORENTZ");
+    line(""); line("Tabel 3.1 — Solenoida (No | I (A) | N | L (cm) | B (Tesla))");
     for (r=1; r<=3; r++) line("  "+r+". "+rowText("t41-body", r, ["c0","c1","c2","c3"]));
     q(1, "Jika L diperbesar (I, N tetap), B ...", checkedRadio("k4-L"));
     q(2, "Perbedaan utama pola medan magnet toroida vs solenoida.", val("k4-q2"));
     q(3, "Faktor yang memengaruhi gaya Lorentz.", checkedBoxes("k4-lorentz"));
 
-    section("KEGIATAN 5 — EVALUASI MANDIRI");
+    section("KEGIATAN 4 — EVALUASI MANDIRI");
     q(1, "Medan magnet titik berjarak 2 cm dari kawat lurus berarus 4 A.", val("k5-q1"));
     q(2, "Medan magnet solenoida 300 lilitan, panjang 25 cm, arus 3 A.", val("k5-q2"));
     q(3, "Jika lilitan digandakan (L tetap), B menjadi ...", checkedRadio("k5-q3"));
@@ -728,6 +696,23 @@
     updateFullscreenIcon();
   }
 
+  /* Browser tidak mengizinkan layar penuh otomatis saat halaman dibuka (harus ada
+     interaksi pengguna). Jadi begitu pengguna menyentuh/klik pertama kali di mana pun
+     pada halaman, layar penuh langsung diaktifkan secara otomatis. */
+  (function(){
+    function masukFsOtomatis(){
+      document.removeEventListener("click", masukFsOtomatis, true);
+      document.removeEventListener("touchend", masukFsOtomatis, true);
+      var isFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+      if (isFs) return;
+      var el = document.documentElement;
+      if (el.requestFullscreen) el.requestFullscreen().catch(function(){});
+      else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    }
+    document.addEventListener("click", masukFsOtomatis, true);
+    document.addEventListener("touchend", masukFsOtomatis, true);
+  })();
+
   var btnExitApp = document.getElementById("btnExitApp");
   if (btnExitApp){
     btnExitApp.addEventListener("click", function(){
@@ -747,16 +732,37 @@
     /* ---------- Kuis arah medan magnetik (Kegiatan 2) ---------- */
     (function(){
       "use strict";
-      /* Bank soal: 12 kasus (semua arah arus x 2 posisi P)
-         - Arus +x, −x, +y, −y  (dalam bidang)  → P di atas/bawah (arus sumbu x) atau kiri/kanan (arus sumbu y) → jawaban: keluar/masuk bidang
-         - Arus keluar/masuk bidang (tegak lurus) → P di kiri/kanan → jawaban: ke atas/ke bawah */
-      var qs = [], N = 12, i = 0, score = 0, done = false, hasil = null;
+      /* Bank soal:
+         A) 12 kasus satu kawat lurus (semua arah arus x 2 posisi P), 1 bagian per soal
+            - Arus +x, −x, +y, −y (dalam bidang) → P di atas/bawah atau kiri/kanan → jawaban: keluar/masuk bidang
+            - Arus keluar/masuk bidang (tegak lurus) → P di kiri/kanan → jawaban: ke atas/ke bawah
+         B) 3 kasus dua kawat sejajar (arus & besar arus acak, searah atau berlawanan), P:
+            - di antara kedua kawat / di sebelah kiri kedua kawat / di sebelah kanan kedua kawat
+            Tiap soal dua kawat punya 3 bagian: arah B₁ (oleh kawat 1 saja), arah B₂ (oleh kawat 2 saja),
+            dan arah B total (superposisi B₁+B₂) — dijawab satu per satu. */
+      var qs = [], N = 0, i = 0, score = 0, maxScore = 0, curAns = [], done = false, hasil = null, tMulai = 0, tTimer = null;
+      function fmtWaktu(ms){
+        var s = Math.round(ms / 1000), m = Math.floor(s / 60);
+        s = s % 60;
+        return m + " menit " + (s < 10 ? "0" : "") + s + " detik";
+      }
+      function fmtJam(ms){
+        var s = Math.floor(ms / 1000), m = Math.floor(s / 60);
+        s = s % 60;
+        return m + ":" + (s < 10 ? "0" : "") + s;
+      }
+      function tickTimer(){
+        var el = document.getElementById("kz-timer");
+        if (!el) return;
+        el.textContent = "⏱ " + fmtJam(Date.now() - tMulai);
+      }
       var root = document.getElementById("kz-app");
       if (!root) return;
       var DOT = '<svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="24" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="30" cy="30" r="6" fill="currentColor"/></svg>';
       var CROSS = '<svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="24" fill="none" stroke="currentColor" stroke-width="3"/><path d="M15 15L45 45M45 15L15 45" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>';
       var UP = '<svg viewBox="0 0 60 60"><path d="M30 52V10M14 26L30 10L46 26" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
       var DOWN = '<svg viewBox="0 0 60 60"><path d="M30 8V50M14 34L30 50L46 34" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      var KM_OPTS = [{ ic: DOT, t: "Keluar bidang" }, { ic: CROSS, t: "Masuk bidang" }];
 
       window.kuisHasil = function(){ return hasil; };
 
@@ -776,34 +782,87 @@
         "kanan": { v:[1,0,0],  txt:"di sebelah kanan kawat" }
       };
       function cross(a, b){ return [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]]; }
+      function randInt(a, b){ return a + Math.floor(Math.random() * (b - a + 1)); }
+      function dirText(d){ return d === 1 ? "ke atas" : "ke bawah"; }
+      function kmTxt(v){ return v > 0 ? "keluar dari bidang (•)" : "masuk ke bidang (×)"; }
+
+      /* Soal dua kawat sejajar vertikal (kawat 1 kiri & kawat 2 kanan), arus naik(+1)/turun(−1).
+         pos: "antara" | "kiri" | "kanan" (posisi P relatif kedua kawat)
+         signL/signR: tanda arah dari kawat ke P sepanjang sumbu x untuk posisi tsb. */
+      var DUA_POS = {
+        antara: { signL: 1, signR: -1, rL: 10, rR: 10, txt: "di antara kedua kawat (10 cm dari masing-masing kawat)" },
+        kiri:   { signL: -1, signR: -1, rL: 10, rR: 30, txt: "di sebelah kiri kedua kawat (10 cm dari kawat 1, 30 cm dari kawat 2)" },
+        kanan:  { signL: 1, signR: 1, rL: 30, rR: 10, txt: "di sebelah kanan kedua kawat (30 cm dari kawat 1, 10 cm dari kawat 2)" }
+      };
+      function buatSoalDua(pos){
+        var cfg = DUA_POS[pos], IL, IR, dirL, dirR, cL, cR, net;
+        do {
+          IL = randInt(1, 9); IR = randInt(1, 9);
+          dirL = Math.random() < 0.5 ? 1 : -1; dirR = Math.random() < 0.5 ? 1 : -1;
+          cL = -dirL * cfg.signL * (IL / cfg.rL);
+          cR = -dirR * cfg.signR * (IR / cfg.rR);
+          net = cL + cR;
+        } while (Math.abs(net) < 1e-9);
+        return {
+          dua: true, pos: pos, IL: IL, IR: IR, dirL: dirL, dirR: dirR, rL: cfg.rL, rR: cfg.rR, cL: cL, cR: cR,
+          parts: [
+            { key: "b1", label: "Arah medan magnetik oleh <b>kawat 1</b> saja (B₁) di titik P", opts: KM_OPTS, ans: cL > 0 ? 0 : 1 },
+            { key: "b2", label: "Arah medan magnetik oleh <b>kawat 2</b> saja (B₂) di titik P", opts: KM_OPTS, ans: cR > 0 ? 0 : 1 },
+            { key: "tot", label: "Arah medan magnetik <b>total</b> (B₁ + B₂) di titik P", opts: KM_OPTS, ans: net > 0 ? 0 : 1 }
+          ]
+        };
+      }
 
       function gen(){
         var combos = [
           ["+x","atas"],["+x","bawah"],["−x","atas"],["−x","bawah"],
-          ["+y","kiri"],["+y","kanan"],["−y","kiri"],["−y","kanan"],
+          ["+y","kiri"],["+y","kanan"],["−y","kiri"],
           ["keluar","kiri"],["keluar","kanan"],["masuk","kiri"],["masuk","kanan"]
         ];
-        for (var k = combos.length - 1; k > 0; k--){            // acak urutan soal
-          var j = Math.floor(Math.random() * (k + 1)), t = combos[k]; combos[k] = combos[j]; combos[j] = t;
-        }
         qs = combos.map(function(c){
           var B = cross(ARUS[c[0]].v, POS[c[1]].v);
           var q = { arus: c[0], pos: c[1], perp: (c[0] === "keluar" || c[0] === "masuk") };
+          var opts, ans, hasilTxt;
           if (q.perp){
-            q.opts = [{ ic: UP, t: "Ke atas (+y)" }, { ic: DOWN, t: "Ke bawah (−y)" }];
-            q.ans = B[1] > 0 ? 0 : 1;
-            q.hasilTxt = B[1] > 0 ? "ke atas (+y)" : "ke bawah (−y)";
+            opts = [{ ic: UP, t: "Ke atas (+y)" }, { ic: DOWN, t: "Ke bawah (−y)" }];
+            ans = B[1] > 0 ? 0 : 1;
+            hasilTxt = B[1] > 0 ? "ke atas (+y)" : "ke bawah (−y)";
           } else {
-            q.opts = [{ ic: DOT, t: "Keluar bidang" }, { ic: CROSS, t: "Masuk bidang" }];
-            q.ans = B[2] > 0 ? 0 : 1;
-            q.hasilTxt = B[2] > 0 ? "keluar dari bidang (•)" : "masuk ke bidang (×)";
+            opts = KM_OPTS;
+            ans = B[2] > 0 ? 0 : 1;
+            hasilTxt = kmTxt(B[2]);
           }
+          q.hasilTxt = hasilTxt;
+          q.parts = [{ key: "main", label: "Arah medan magnetik di titik P (" + POS[c[1]].txt + ")", opts: opts, ans: ans }];
           return q;
         });
+        qs.push(buatSoalDua("antara"), buatSoalDua("kiri"), buatSoalDua("kanan"));
+        for (var k = qs.length - 1; k > 0; k--){            // acak urutan soal
+          var j = Math.floor(Math.random() * (k + 1)), t = qs[k]; qs[k] = qs[j]; qs[j] = t;
+        }
         N = qs.length;
+        maxScore = qs.reduce(function(sum, q){ return sum + q.parts.length; }, 0);
+      }
+
+      function sceneDua(q){
+        var xL = 220, xR = 380, px = q.pos === "antara" ? 300 : (q.pos === "kiri" ? 90 : 510);
+        var py = 160, yTop = 40, yBot = 200;
+        var s = '<svg viewBox="0 0 600 230" role="img" aria-label="Dua kawat sejajar berarus">';
+        s += '<text x="580" y="222" text-anchor="end" fill="var(--text-secondary)" font-size="14">sumbu +x →</text>';
+        [[xL, q.dirL, q.IL, "1"], [xR, q.dirR, q.IR, "2"]].forEach(function(w){
+          var x = w[0], d = w[1], I = w[2], num = w[3];
+          s += '<rect x="'+(x-12)+'" y="'+(yTop+6)+'" width="24" height="'+(yBot-yTop-12)+'" rx="12" fill="var(--text-secondary)" opacity=".35"/>';
+          s += '<path d="'+(d === 1 ? "M"+x+" "+(yBot-15)+"V"+(yTop+15) : "M"+x+" "+(yTop+15)+"V"+(yBot-15))+'" stroke="var(--text-primary)" stroke-width="3" fill="none"/>';
+          s += '<polygon points="'+(d === 1 ? x+","+(yTop+10)+" "+(x-9)+","+(yTop+26)+" "+(x+9)+","+(yTop+26) : x+","+(yBot-10)+" "+(x-9)+","+(yBot-26)+" "+(x+9)+","+(yBot-26))+'" fill="var(--text-primary)"/>';
+          s += '<text x="'+x+'" y="22" text-anchor="middle" fill="var(--text-primary)" font-size="15">kawat '+num+': '+I+' A</text>';
+        });
+        s += '<circle cx="'+px+'" cy="'+py+'" r="14" fill="var(--accent)"/>';
+        s += '<text x="'+px+'" y="'+(py+5)+'" text-anchor="middle" fill="#171c29" font-size="15" font-weight="700">P</text>';
+        return s + '</svg>';
       }
 
       function scene(q){
+        if (q.dua) return sceneDua(q);
         var a = q.arus, s = "";
         var px = 300, py = 110;
         if (q.pos === "atas") py = 45; else if (q.pos === "bawah") py = 175;
@@ -837,61 +896,86 @@
         return s + '</svg>';
       }
 
+      function partFb(q, k){
+        var part = q.parts[k], v = curAns[k], ok = v === part.ans;
+        if (q.dua){
+          if (part.key === "b1") return (ok ? "Benar — " : "Kurang tepat — ") + "kawat 1 (" + q.IL + " A, arus " + dirText(q.dirL) + ") menghasilkan B₁ " + kmTxt(q.cL) + " di P.";
+          if (part.key === "b2") return (ok ? "Benar — " : "Kurang tepat — ") + "kawat 2 (" + q.IR + " A, arus " + dirText(q.dirR) + ") menghasilkan B₂ " + kmTxt(q.cR) + " di P.";
+          var dominan = Math.abs(q.cL) >= Math.abs(q.cR) ? "kawat 1" : "kawat 2";
+          return (ok ? "Benar — " : "Kurang tepat — ") + "karena pengaruh " + dominan + " lebih kuat (I/jarak lebih besar), superposisi B₁ + B₂ mengarah " + kmTxt(q.cL + q.cR) + ".";
+        }
+        if (q.perp){
+          return (ok ? "Benar — " : "Kurang tepat — ") + "Arus " + ARUS[q.arus].txt + (q.arus === "keluar" ? " (ibu jari ke luar layar, medan berputar berlawanan arah jarum jam)" : " (ibu jari masuk layar, medan berputar searah jarum jam)") + ", sehingga di titik P medan mengarah " + q.hasilTxt + ".";
+        }
+        var ib = { "+x":"+x (kanan)", "−x":"−x (kiri)", "+y":"+y (atas)", "−y":"−y (bawah)" }[q.arus];
+        return (ok ? "Benar — " : "Kurang tepat — ") + "Ibu jari tangan kanan menunjuk " + ib + ", lipatan jari " + q.hasilTxt + " di titik P.";
+      }
+
       function render(){
         if (done){
-          var p = Math.round(score / N * 100);
+          var p = Math.round(score / maxScore * 100);
           var msg = p >= 80 ? "Hebat! Kaidah tangan kanan sudah dikuasai." : p >= 60 ? "Cukup baik, ulangi sekali lagi." : "Yuk pelajari lagi kaidah tangan kanan lalu coba ulang.";
-          root.innerHTML = '<div class="big">'+score+' / '+N+'</div>'+
-            '<p class="kz-res">Nilai: <b>'+p+'</b><br>'+msg+'</p>'+
+          root.innerHTML = '<div class="big">'+score+' / '+maxScore+'</div>'+
+            '<p class="kz-res">Nilai: <b>'+p+'</b><br>'+msg+'<br>Waktu pengerjaan: <b>'+hasil.waktuText+'</b></p>'+
             '<button type="button" class="nx" style="display:block" data-act="start">Ulangi Kuis</button>';
           return;
         }
         var q = qs[i];
+        curAns = new Array(q.parts.length).fill(null);
+        var partsHtml = q.parts.map(function(part, k){
+          return '<p class="kz-q"><b>'+(q.parts.length > 1 ? (k+1)+". " : "")+part.label+'</b></p>'+
+            '<div class="ch" data-part="'+k+'">'+
+              '<button type="button" id="kz-b'+k+'-0" data-act="ans" data-k="'+k+'" data-v="0">'+part.opts[0].ic+part.opts[0].t+'</button>'+
+              '<button type="button" id="kz-b'+k+'-1" data-act="ans" data-k="'+k+'" data-v="1">'+part.opts[1].ic+part.opts[1].t+'</button>'+
+            '</div>'+
+            '<div class="fb" id="kz-fb'+k+'"></div>';
+        }).join("");
         root.innerHTML =
-          '<div class="top"><span>Soal '+(i+1)+' dari '+N+'</span><span>Skor: '+score+'</span></div>'+
+          '<div class="top"><span>Soal '+(i+1)+' dari '+N+'</span><span id="kz-timer">⏱ '+fmtJam(Date.now() - tMulai)+'</span><span>Skor: '+score+' / '+maxScore+'</span></div>'+
           '<div class="bar"><i style="width:'+(i / N * 100)+'%"></i></div>'+
           scene(q)+
-          '<p class="kz-q"><b>Bagaimana arah medan magnetik di titik P</b> ('+POS[q.pos].txt+')?</p>'+
-          '<div class="ch">'+
-            '<button type="button" id="kz-b0" data-act="ans" data-v="0">'+q.opts[0].ic+q.opts[0].t+'</button>'+
-            '<button type="button" id="kz-b1" data-act="ans" data-v="1">'+q.opts[1].ic+q.opts[1].t+'</button>'+
-          '</div>'+
-          '<div class="fb" id="kz-fb"></div>'+
+          partsHtml+
           '<button type="button" class="nx" id="kz-nx" data-act="next">'+(i === N - 1 ? "Lihat Hasil" : "Soal Berikutnya")+'</button>';
       }
 
-      function ans(v){
-        var q = qs[i], ok = (v === q.ans);
+      function ans(k, v){
+        var q = qs[i], part = q.parts[k];
+        if (curAns[k] !== null) return;
+        curAns[k] = v;
+        var ok = v === part.ans;
         if (ok) score++;
-        var b = [document.getElementById("kz-b0"), document.getElementById("kz-b1")];
-        b[0].disabled = b[1].disabled = true;
-        b[q.ans].classList.add("ok");
-        if (!ok) b[v].classList.add("no");
-        var fb = document.getElementById("kz-fb");
+        var b0 = document.getElementById("kz-b"+k+"-0"), b1 = document.getElementById("kz-b"+k+"-1");
+        b0.disabled = b1.disabled = true;
+        (part.ans === 0 ? b0 : b1).classList.add("ok");
+        if (!ok) (v === 0 ? b0 : b1).classList.add("no");
+        var fb = document.getElementById("kz-fb"+k);
         fb.className = "fb " + (ok ? "ok" : "no");
-        var why;
-        if (q.perp){
-          why = "Arus " + ARUS[q.arus].txt + (q.arus === "keluar" ? " (ibu jari mengarah ke luar layar, medan berputar berlawanan arah jarum jam)" : " (ibu jari mengarah masuk layar, medan berputar searah jarum jam)") +
-                ". " + POS[q.pos].txt.replace("di ", "Di ") + ", medan magnetik mengarah " + q.hasilTxt + ".";
-        } else {
-          var ib = { "+x":"+x (kanan)", "−x":"−x (kiri)", "+y":"+y (atas)", "−y":"−y (bawah)" }[q.arus];
-          why = "Ibu jari tangan kanan menunjuk " + ib + ". " + POS[q.pos].txt.replace("di ", "Di ") + ", lipatan jari " + q.hasilTxt + ".";
+        fb.innerHTML = partFb(q, k);
+        if (curAns.every(function(x){ return x !== null; })){
+          document.getElementById("kz-nx").style.display = "block";
         }
-        fb.innerHTML = (ok ? "<b>Benar!</b> " : "<b>Kurang tepat.</b> ") + why;
-        document.getElementById("kz-nx").style.display = "block";
       }
       function next(){
-        if (i === N - 1){ done = true; hasil = { skor: score, total: N }; }
-        else i++;
+        if (i === N - 1){
+          done = true;
+          if (tTimer){ clearInterval(tTimer); tTimer = null; }
+          var ms = Date.now() - tMulai;
+          hasil = { skor: score, total: maxScore, waktuMs: ms, waktuText: fmtWaktu(ms) };
+        } else i++;
         render();
       }
-      function start(){ gen(); i = 0; score = 0; done = false; render(); }
+      function start(){
+        gen(); i = 0; score = 0; done = false; tMulai = Date.now();
+        if (tTimer) clearInterval(tTimer);
+        tTimer = setInterval(tickTimer, 1000);
+        render();
+      }
 
       root.addEventListener("click", function(e){
         var t = e.target.closest("[data-act]");
         if (!t || t.disabled) return;
         var a = t.getAttribute("data-act");
-        if (a === "ans") ans(parseInt(t.getAttribute("data-v"), 10));
+        if (a === "ans") ans(parseInt(t.getAttribute("data-k"), 10), parseInt(t.getAttribute("data-v"), 10));
         else if (a === "next") next();
         else if (a === "start") start();
       });
